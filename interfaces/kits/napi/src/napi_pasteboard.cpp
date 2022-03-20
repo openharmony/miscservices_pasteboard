@@ -124,14 +124,14 @@ napi_value JScreateHtmlData(napi_env env, napi_callback_info info)
     NAPI_CALL(env, PasteDataNapi::NewInstance(env, &instance));
     PASTEBOARD_HILOGI(PASTEBOARD_MODULE_JS_NAPI, "bbb");
 
-    // napi_value func = nullptr;
-    // napi_status status = napi_get_named_property(env, instance, "AddHtmlRecord", &func);
-    // NAPI_ASSERT(env, status == napi_ok, "napi get func failed!");
+    napi_value func = nullptr;
+    napi_status status = napi_get_named_property(env, instance, "AddHtmlRecord", &func);
+    NAPI_ASSERT(env, status == napi_ok, "napi get func failed!");
     PASTEBOARD_HILOGI(PASTEBOARD_MODULE_JS_NAPI, "ccc");
 
-    napi_valuetype valueType = napi_undefined;
-    napi_typeof(env, func, &valueType);
-    NAPI_ASSERT(env, valueType == napi_function, "func is not napi_function!");
+    // napi_valuetype valueType = napi_undefined;
+    // napi_typeof(env, func, &valueType);
+    // NAPI_ASSERT(env, valueType == napi_function, "func is not napi_function!");
     PASTEBOARD_HILOGI(PASTEBOARD_MODULE_JS_NAPI, "ddd");
 
     napi_value callbackResult = nullptr;
