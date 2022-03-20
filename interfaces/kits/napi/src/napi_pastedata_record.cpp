@@ -21,6 +21,8 @@ using namespace OHOS::MiscServices;
 namespace OHOS {
 namespace MiscServicesNapi {
 static thread_local napi_ref g_pasteDataRecord = nullptr;
+std::shared_ptr<MiscServices::PasteDataRecord> PasteDataRecordNapi::value_ = nullptr;
+
 const size_t ARGC_TYPE_SET1 = 1;
 const size_t ARGC_TYPE_SET4 = 4;
 
