@@ -24,7 +24,6 @@ namespace OHOS {
 namespace MiscServicesNapi {
 static thread_local napi_ref g_pasteDataRecord = nullptr;
 const size_t ARGC_TYPE_SET1 = 1;
-const int32_t STR_DATA_SIZE_MAX = 500 * 1024;
 
 PasteDataRecordNapi::PasteDataRecordNapi() : env_(nullptr), wrapper_(nullptr)
 {
@@ -155,12 +154,18 @@ napi_value PasteDataRecordNapi::ConvertToText(napi_env env, napi_callback_info i
     NAPI_ASSERT(env, valueType == napi_string, "Wrong argument type. string expected.");
 
     size_t len = 0;
-    char str[STR_DATA_SIZE_MAX] = {0};
-    napi_status status = napi_get_value_string_utf8(env, argv[0], str, STR_DATA_SIZE_MAX, &len);
+    napi_status status = napi_get_value_string_utf8(env, argv[0], nullptr, 0, &len);
     if (status != napi_ok) {
-        PASTEBOARD_HILOGE(PASTEBOARD_MODULE_JS_NAPI, "Get AddHtmlRecord length failed");
+        PASTEBOARD_HILOGE(PASTEBOARD_MODULE_JS_NAPI, "Get length failed");
         return nullptr;
     }
+    std::vector<char> buf(len + 1);
+    status = napi_get_value_string_utf8(env, argv[0], buf.data(), len + 1, &len);
+    if (status != napi_ok) {
+        PASTEBOARD_HILOGE(PASTEBOARD_MODULE_JS_NAPI, "Get data failed");
+        return nullptr;
+    }
+    std::string str(buf.data());
 
     PasteDataRecordNapi *obj = nullptr;
     status = napi_unwrap(env, thisVar, reinterpret_cast<void **>(&obj));
