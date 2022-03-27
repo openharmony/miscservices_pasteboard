@@ -43,9 +43,9 @@ ohos_shared_library("pasteboard_napi") {
     "//foundation/aafwk/standard/interfaces/innerkits/uri:zuri",
     "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/ace/napi/:ace_napi",
-    "//utils/native/base:utils",
     "//third_party/libuv:uv_static",
-    ]
+    "//utils/native/base:utils",
+  ]
 
   external_deps = [
     "hiviewdfx_hilog_native:libhilog",

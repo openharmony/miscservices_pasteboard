@@ -24,7 +24,8 @@ namespace MiscServices {
 class PasteboardObserverCallback : public PasteboardObserver {
 public:
     PasteboardObserverCallback() {};
-    ~PasteboardObserverCallback() {
+    ~PasteboardObserverCallback()
+    {
         PASTEBOARD_HILOGI(PASTEBOARD_MODULE_SERVICE, "deconstructor.");
     };
     void OnPasteboardChanged() override;

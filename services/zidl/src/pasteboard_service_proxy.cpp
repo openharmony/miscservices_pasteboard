@@ -133,7 +133,6 @@ void PasteboardServiceProxy::SetPasteData(PasteData& pasteData)
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_CLIENT, "failed, error code is: %{public}d", result);
     }
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_CLIENT, "end.");
-
 }
 
 bool PasteboardServiceProxy::GetPasteData(PasteData& pasteData)

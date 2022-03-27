@@ -192,8 +192,7 @@ void PasteboardClient::RemovePasteboardChangedObserver(std::shared_ptr<Pasteboar
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_CLIENT, "quit.");
         return;
     }
-    if (callback == nullptr)
-    {
+    if (callback == nullptr) {
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_CLIENT, "remove all.");
         pasteboardServiceProxy_->RemoveAllChangedObserver();
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_CLIENT, "end.");

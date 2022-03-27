@@ -127,8 +127,8 @@ napi_value JScreateHtmlTextRecord(napi_env env, napi_callback_info info)
     napi_valuetype valueType = napi_undefined;
     NAPI_CALL(env, napi_typeof(env, argv[0], &valueType));
     NAPI_ASSERT(env, valueType == napi_string, "Wrong argument type. String expected.");
-	
-	    size_t len = 0;
+    
+    size_t len = 0;
     napi_status status = napi_get_value_string_utf8(env, argv[0], nullptr, 0, &len);
     if (status != napi_ok) {
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_JS_NAPI, "Get length failed");
@@ -217,8 +217,8 @@ napi_value JScreateUriRecord(napi_env env, napi_callback_info info)
     napi_valuetype valueType = napi_undefined;
     NAPI_CALL(env, napi_typeof(env, argv[0], &valueType));
     NAPI_ASSERT(env, valueType == napi_string, "Wrong argument type. String expected.");
-	
-	size_t len = 0;
+
+    size_t len = 0;
     napi_status status = napi_get_value_string_utf8(env, argv[0], nullptr, 0, &len);
     if (status != napi_ok) {
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_JS_NAPI, "Get length failed");
@@ -260,7 +260,7 @@ napi_value JScreateHtmlData(napi_env env, napi_callback_info info)
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_JS_NAPI, "Get data failed");
         return nullptr;
     }
-    std::string str(buf.data());   
+    std::string str(buf.data());
     napi_value instance = nullptr;
     NAPI_CALL(env, PasteDataNapi::NewInstance(env, instance));
     PasteDataNapi *obj = nullptr;
@@ -858,7 +858,7 @@ std::shared_ptr<PasteboardObserverInstance> SystemPasteboardNapi::GetPasteboardO
     std::lock_guard<std::mutex> lock(pasteboardObserverInsMutex_);
     auto observer = observers_.find(ref);
     if (observer != observers_.end()) {
-       return observer->second;
+        return observer->second;
     }
 
     return nullptr;

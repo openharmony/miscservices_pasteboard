@@ -18,7 +18,7 @@
 #include <ohos/aafwk/content/want.h>
 #include "pasteboard_client.h"
 #include "uri.h"
-#include "paste_service_test.h"
+#include "pasteboard_observer_callback.h"
 
 using namespace testing::ext;
 using namespace OHOS;
@@ -49,7 +49,6 @@ void PasteboardServiceTest::SetUp(void)
 void PasteboardServiceTest::TearDown(void)
 {}
 
-namespace {
 void PasteboardObserverCallback::OnPasteboardChanged()
 {
     PASTEBOARD_HILOGI(PASTEBOARD_MODULE_SERVICE, "callback.");
@@ -233,5 +232,3 @@ HWTEST_F(PasteboardServiceTest, PasteDataTest004, TestSize.Level0)
     auto record = pasteData.GetPrimaryHtml();
     EXPECT_TRUE(record != nullptr);
 }
-} // namepace test
-
