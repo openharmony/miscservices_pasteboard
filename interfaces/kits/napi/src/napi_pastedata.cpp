@@ -441,7 +441,7 @@ napi_value PasteDataNapi::ReplaceRecordAt(napi_env env, napi_callback_info info)
 
     PasteDataRecordNapi *record = nullptr;
     status = napi_unwrap(env, argv[1], reinterpret_cast<void **>(&record));
-    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_JS_NAPI, "fff.");
+
     if ((status != napi_ok) || (record == nullptr)) {
         PASTEBOARD_HILOGE(PASTEBOARD_MODULE_JS_NAPI, "Get PasteDataRecord object failed");
         return nullptr;
