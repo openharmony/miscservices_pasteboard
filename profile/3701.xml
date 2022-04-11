@@ -16,7 +16,7 @@
     <process>pasteboard_service</process>
     <systemability>
         <name>3701</name>
-        <libpath>/system/lib/libpasteboard_service.z.so</libpath>
+        <libpath>libpasteboard_service.z.so</libpath>
         <run-on-create>true</run-on-create>
         <distributed>false</distributed>
         <dump-level>1</dump-level>
