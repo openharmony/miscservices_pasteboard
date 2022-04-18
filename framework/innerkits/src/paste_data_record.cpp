@@ -34,7 +34,7 @@ std::shared_ptr<PasteDataRecord> PasteDataRecord::NewHtmlRecord(const std::strin
 
 std::shared_ptr<PasteDataRecord> PasteDataRecord::NewWantRecord(std::shared_ptr<OHOS::AAFwk::Want> want)
 {
-  return std::make_shared<PasteDataRecord>(MIMETYPE_TEXT_WANT,
+    return std::make_shared<PasteDataRecord>(MIMETYPE_TEXT_WANT,
                                            nullptr,
                                            std::move(want),
                                            nullptr,
