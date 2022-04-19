@@ -33,18 +33,13 @@ public:
 };
 
 void PasteboardServiceTest::SetUpTestCase(void)
-{
-    
-}
+{}
 
 void PasteboardServiceTest::TearDownTestCase(void)
-{
-
-}
+{}
 
 void PasteboardServiceTest::SetUp(void)
-{
-}
+{}
 
 void PasteboardServiceTest::TearDown(void)
 {}
