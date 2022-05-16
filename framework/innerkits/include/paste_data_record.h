@@ -18,10 +18,10 @@
 
 #include <memory>
 #include <string>
-#include <ohos/aafwk/content/want.h>
 #include "parcel.h"
 #include "string_ex.h"
 #include "uri.h"
+#include "want.h"
 
 namespace OHOS {
 namespace MiscServices {

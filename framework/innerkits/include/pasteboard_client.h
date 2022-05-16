@@ -18,11 +18,11 @@
 
 #include <functional>
 #include <singleton.h>
-#include <ohos/aafwk/content/want.h>
 #include "paste_data_record.h"
 #include "paste_data.h"
 #include "i_pasteboard_service.h"
 #include "pasteboard_observer.h"
+#include "want.h"
 
 namespace OHOS {
 namespace MiscServices {
