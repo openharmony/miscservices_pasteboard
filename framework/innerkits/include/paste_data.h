@@ -20,9 +20,9 @@
 #include <chrono>
 #include <memory>
 #include <map>
-#include <ohos/aafwk/content/want.h>
 #include "paste_data_record.h"
 #include "uri.h"
+#include "want.h"
 
 namespace OHOS {
 namespace MiscServices {
