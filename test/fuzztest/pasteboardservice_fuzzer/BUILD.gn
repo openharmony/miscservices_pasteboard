@@ -50,8 +50,6 @@ deps = [
                     "//third_party/jsoncpp:jsoncpp",
                     "//utils/native/base:utils",
                     "//base/miscservices/pasteboard/services:pasteboard_service",
-                    "${base_path}:base",
-                    "${base_path}:want",
            ]
 
 external_deps = [ "hiviewdfx_hilog_native:libhilog",

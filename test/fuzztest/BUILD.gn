@@ -16,7 +16,5 @@ import("//base/miscservices/pasteboard/pasteboard.gni")
 group("fuzztest") {
   testonly = true
 
-  deps = [
-    "pasteboardservice_fuzzer:fuzztest",
-  ]
+  deps = [ "pasteboardservice_fuzzer:fuzztest" ]
 }
