@@ -31,16 +31,12 @@ ohos_fuzztest("PasteboardServiceFuzzTest") {
 
   include_dirs = [
     "//base/miscservices/pasteboard/services/zidl/include",
-    "//base/miscservices/pasteboard/services/zidl/src",
     "//base/miscservices/pasteboard/services/core/include",
     "${pasteboard_innerkits_path}/include",
     "//utils/system/safwk/native/include",
     "//third_party/json/include",
     "${pasteboard_utils_path}/mock/include",
     "${pasteboard_utils_path}/native/include",
-    "//foundation/aafwk/standard/ability_base/interfaces/inner_api/uri/include",
-    "//foundation/aafwk/standard/ability_base/interfaces/inner_api/want/include",
-    "//foundation/aafwk/standard/ability_base/interfaces/inner_api/base/include",
   ]
 
   cflags = [
@@ -55,7 +51,6 @@ ohos_fuzztest("PasteboardServiceFuzzTest") {
   deps = [
     "${pasteboard_innerkits_path}:pasteboard_client",
     "//base/miscservices/pasteboard/services:pasteboard_service",
-    "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",
     "//third_party/jsoncpp:jsoncpp",
     "//utils/native/base:utils",
   ]
@@ -65,7 +60,6 @@ ohos_fuzztest("PasteboardServiceFuzzTest") {
     "common_event_service:cesfwk_innerkits",
     "eventhandler:libeventhandler",
     "hisysevent_native:libhisysevent",
-    "hiviewdfx_hilog_native:libhilog",
     "hiviewdfx_hilog_native:libhilog",
     "ipc:ipc_core",
     "safwk:system_ability_fwk",

@@ -26,15 +26,15 @@ using namespace OHOS::MiscServices;
 namespace OHOS {
 constexpr size_t THRESHOLD = 10;
 constexpr int32_t OFFSET = 4;
-const std::u16string PASBODS_INTERFACE_TOKEN = u"ohos.miscseervice.pasteboard";
+const std::u16string PPASTEBOARDSERVICE_INTERFACE_TOKEN = u"ohos.miscseervice.pasteboard";
 
 uint32_t ConvertToUint32(const uint8_t* ptr)
 {
     if (ptr == nullptr) {
         return 0;
     }
-    uint32_t bigvar = (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
-    return bigvar;
+    uint32_t bigVar = (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
+    return bigVar;
 }
 bool FuzzPasteboardService(const uint8_t* rawData, size_t size)
 {
@@ -43,7 +43,7 @@ bool FuzzPasteboardService(const uint8_t* rawData, size_t size)
     size = size - OFFSET;
 
     MessageParcel data;
-    data.WriteInterfaceToken(PASBODS_INTERFACE_TOKEN);
+    data.WriteInterfaceToken(PASTEBOARDSERVICE_INTERFACE_TOKEN);
     data.WriteBuffer(rawData, size);
     data.RewindRead(0);
     MessageParcel reply;
