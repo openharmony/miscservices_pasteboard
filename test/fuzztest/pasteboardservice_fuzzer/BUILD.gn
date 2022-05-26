@@ -50,11 +50,11 @@ ohos_fuzztest("PasteboardServiceFuzzTest") {
   ]
 
   external_deps = [
+    "ability_base:want",
+    "eventhandler:libeventhandler",
     "hiviewdfx_hilog_native:libhilog",
     "ipc:ipc_core",
     "safwk:system_ability_fwk",
-    "eventhandler:libeventhandler",
-    "ability_base:want",
   ]
 }
 
