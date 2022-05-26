@@ -44,7 +44,6 @@ ohos_shared_library("pasteboard_service") {
     ":pasteboard_service_config",
   ]
   deps = [
-    "${aafwk_kits_path}/ability/native:abilitykit_native",
     "${pasteboard_innerkits_path}:pasteboard_client",
     "//third_party/jsoncpp:jsoncpp",
     "//utils/native/base:utils",
@@ -52,6 +51,7 @@ ohos_shared_library("pasteboard_service") {
 
   external_deps = [
     "ability_base:want",
+    "ability_runtime:abilitykit_native",
     "eventhandler:libeventhandler",
     "hisysevent_native:libhisysevent",
     "hiviewdfx_hilog_native:libhilog",
