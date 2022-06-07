@@ -523,7 +523,7 @@ napi_value SystemPasteboardNapi::Clear(napi_env env, napi_callback_info info)
 
     napi_value resource = nullptr;
     napi_create_string_latin1(env, "Clear", NAPI_AUTO_LENGTH, &resource);
-    napi_status AsyncWork = napi_create_async_work(env,
+    napi_status asyncWork = napi_create_async_work(env,
         nullptr,
         resource,
         [](napi_env env, void* data) {
@@ -551,7 +551,7 @@ napi_value SystemPasteboardNapi::Clear(napi_env env, napi_callback_info info)
         },
         (void*)asyncContext, &asyncContext->work);
     napi_queue_async_work(env, asyncContext->work);
-    if (AsyncWork != napi_ok) {
+    if (asyncWork != napi_ok) {
         delete asyncContext;
     }
 
@@ -587,7 +587,7 @@ napi_value SystemPasteboardNapi::HasPasteData(napi_env env, napi_callback_info i
 
     napi_value resource = nullptr;
     napi_create_string_latin1(env, "HasPasteData", NAPI_AUTO_LENGTH, &resource);
-    napi_status AsyncWork = napi_create_async_work(env,
+    napi_status asyncWork = napi_create_async_work(env,
         nullptr,
         resource,
         [](napi_env env, void* data) {
@@ -618,7 +618,7 @@ napi_value SystemPasteboardNapi::HasPasteData(napi_env env, napi_callback_info i
         },
         (void*)asyncContext, &asyncContext->work);
     napi_queue_async_work(env, asyncContext->work);
-    if (AsyncWork != napi_ok) {
+    if (asyncWork != napi_ok) {
         delete asyncContext;
     }
 
@@ -654,7 +654,7 @@ napi_value SystemPasteboardNapi::GetPasteData(napi_env env, napi_callback_info i
 
     napi_value resource = nullptr;
     napi_create_string_latin1(env, "GetPasteData", NAPI_AUTO_LENGTH, &resource);
-    napi_status AsyncWork = napi_create_async_work(env,
+    napi_status asyncWork = napi_create_async_work(env,
         nullptr,
         resource,
         [](napi_env env, void *data) { },
@@ -694,7 +694,7 @@ napi_value SystemPasteboardNapi::GetPasteData(napi_env env, napi_callback_info i
         (void *)asyncContext,
         &asyncContext->work);
     napi_queue_async_work(env, asyncContext->work);
-    if (AsyncWork != napi_ok) {
+    if (asyncWork != napi_ok) {
         delete asyncContext;
     }
 
@@ -740,7 +740,7 @@ napi_value SystemPasteboardNapi::SetPasteData(napi_env env, napi_callback_info i
 
     napi_value resource = nullptr;
     napi_create_string_latin1(env, "SetPasteData", NAPI_AUTO_LENGTH, &resource);
-    napi_status AsyncWork = napi_create_async_work(env,
+    napi_status asyncWork = napi_create_async_work(env,
         nullptr,
         resource,
         [](napi_env env, void* data) {
@@ -768,7 +768,7 @@ napi_value SystemPasteboardNapi::SetPasteData(napi_env env, napi_callback_info i
         },
         (void*)asyncContext, &asyncContext->work);
     napi_queue_async_work(env, asyncContext->work);
-    if (AsyncWork != napi_ok) {
+    if (asyncWork != napi_ok) {
         delete asyncContext;
     }
 
