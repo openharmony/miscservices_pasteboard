@@ -17,7 +17,7 @@
 #include "os_account_manager.h"
 #include "pasteboard_common.h"
 #include "pasteboard_service.h"
-
+#include "pasteboard_trace.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -27,7 +27,12 @@ const std::string PASTEBOARD_SERVICE_NAME = "PasteboardService";
 const std::int32_t ERROR_USERID = -1;
 const bool G_REGISTER_RESULT =
     SystemAbility::MakeAndRegisterAbility(DelayedSingleton<PasteboardService>::GetInstance().get());
+const std::string FAIL_TO_GET_TIME_STAMP = "FAIL_TO_GET_TIME_STAMP";
 }
+
+std::vector<std::shared_ptr<std::string>> PasteboardService::dataHistory_;
+std::shared_ptr<Command> PasteboardService::copyHistory;
+std::shared_ptr<Command> PasteboardService::copyData;
 
 PasteboardService::PasteboardService()
     : SystemAbility(PASTEBOARD_SERVICE_ID, true),
@@ -64,6 +69,21 @@ void PasteboardService::OnStart()
         return;
     }
 
+    copyHistory = std::make_shared<Command>(std::vector<std::string>{ "--copy-history" },
+        "Dump access history last ten times.",
+        [this](const std::vector<std::string> &input, std::string &output) -> bool {
+            output = DumpHistory();
+            return true;
+        });
+
+    copyData = std::make_shared<Command>(std::vector<std::string>{ "-data" }, "Show copy data details.",
+        [this](const std::vector<std::string> &input, std::string &output) -> bool {
+            output = DunmpData();
+            return true;
+        });
+
+    PasteboardDumpHelper::GetInstance().RegisterCommand(copyHistory);
+    PasteboardDumpHelper::GetInstance().RegisterCommand(copyData);
     PASTEBOARD_HILOGI(PASTEBOARD_MODULE_SERVICE, "Start PasteboardService success.");
     return;
 }
@@ -121,8 +141,14 @@ void PasteboardService::Clear()
 
 bool PasteboardService::GetPasteData(PasteData& data)
 {
+    PasteboardTrace tracer("PasteboardService, GetPasteData");
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "start.");
     auto userId = GetUserId();
+
+    int32_t uid = IPCSkeleton::GetCallingUid();
+    std::string time = GetTime();
+    SetPasteboardHistory(uid, "Get", time);
+
     if (userId == ERROR_USERID) {
         return false;
     }
@@ -152,8 +178,16 @@ bool PasteboardService::HasPasteData()
 
 void PasteboardService::SetPasteData(PasteData& pasteData)
 {
+    PasteboardTrace tracer("PasteboardService, SetPasteData");
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "start.");
     auto userId = GetUserId();
+
+    int32_t uid = IPCSkeleton::GetCallingUid();
+    uIdForLastCopy_ = uid;
+    std::string time = GetTime();
+    timeForLastCopy_ = time;
+    SetPasteboardHistory(uid, "Set", time);
+
     if (userId == ERROR_USERID) {
         return;
     }
@@ -256,6 +290,134 @@ void PasteboardService::NotifyObservers()
             observer->OnPasteboardChanged();
         }
     }
+}
+
+bool PasteboardService::SetPasteboardHistory(int32_t uId, std::string state, std::string timeStamp)
+{
+    constexpr const size_t DATA_HISTORY_SIZE = 10;
+    std::string bundleName;
+    if (GetBundleNameByUid(uId, bundleName)) {
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "get bundleName success!");
+    } else {
+        bundleName = "com.pasteboard.default";
+    }
+
+    std::string bundleNameState = timeStamp + "  " + bundleName + "    " + state;
+    std::shared_ptr<std::string> pBundleNameState = std::make_shared<std::string>(bundleNameState);
+    if (dataHistory_.size() == DATA_HISTORY_SIZE) {
+        dataHistory_.erase(dataHistory_.begin());
+    }
+    dataHistory_.push_back(pBundleNameState);
+    return true;
+}
+
+int PasteboardService::Dump(int fd, const std::vector<std::u16string> &args)
+{
+    int uid = static_cast<int>(IPCSkeleton::GetCallingUid());
+    const int maxUid = 10000;
+    if (uid > maxUid) {
+        return 0;
+    }
+
+    std::vector<std::string> argsStr;
+    for (auto item : args) {
+        argsStr.emplace_back(Str16ToStr8(item));
+    }
+
+    if (PasteboardDumpHelper::GetInstance().Dump(fd, argsStr)) {
+        return 0;
+    }
+    return 0;
+}
+
+bool PasteboardService::GetBundleNameByUid(int32_t uid, std::string &bundleName)
+{
+    OHOS::sptr<OHOS::ISystemAbilityManager> systemAbilityManager =
+        OHOS::SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
+    OHOS::sptr<OHOS::IRemoteObject> remoteObject =
+        systemAbilityManager->GetSystemAbility(BUNDLE_MGR_SERVICE_SYS_ABILITY_ID);
+
+    sptr<AppExecFwk::IBundleMgr> iBundleMgr = OHOS::iface_cast<AppExecFwk::IBundleMgr>(remoteObject);
+    if (iBundleMgr == nullptr) {
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, " permission check failed, cannot get IBundleMgr.");
+        return false;
+    }
+    return iBundleMgr->GetBundleNameForUid(uid, bundleName);
+}
+
+std::string PasteboardService::GetTime()
+{
+    constexpr int USEC_TO_MSEC = 1000;
+    time_t time_seconds = time(0);
+    if (time_seconds == -1) {
+        return FAIL_TO_GET_TIME_STAMP;
+    }
+    struct tm now_time;
+    localtime_r(&time_seconds, &now_time);
+
+    struct timeval tv = { 0, 0 };
+    gettimeofday(&tv, nullptr);
+
+    std::string targetTime = std::to_string(now_time.tm_year + 1900) + "-"
+                             + std::to_string(now_time.tm_mon + 1) + "-"
+                             + std::to_string(now_time.tm_mday) + " "
+                             + std::to_string(now_time.tm_hour) + ":"
+                             + std::to_string(now_time.tm_min) + ":"
+                             + std::to_string(now_time.tm_sec) + "."
+                             + std::to_string(tv.tv_usec / USEC_TO_MSEC);
+    return targetTime;
+}
+
+std::string PasteboardService::DumpHistory() const
+{
+    std::string result;
+    if (!dataHistory_.empty()) {
+    result.append("Access history last ten times: ").append("\n");
+    for (auto iter = dataHistory_.rbegin(); iter != dataHistory_.rend(); ++iter) {
+        result.append("          ")
+            .append(**iter)
+            .append("\n");
+        }
+    } else {
+        result.append("Access history fail! dataHistory_ no data.").append("\n");
+    }
+    return result;
+}
+
+std::string PasteboardService::DunmpData()
+{
+    std::string result;
+    std::vector<std::string> mimeTypes;
+    std::string bundleName;
+    if (!clips_.empty()) {
+        size_t recordCounts = clips_.rbegin()->second->GetRecordCount();
+        mimeTypes = clips_.rbegin()->second->GetMimeTypes();
+        if (GetBundleNameByUid(uIdForLastCopy_, bundleName)) {
+            PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "get bundleName success!");
+            } else {
+                bundleName = "com.pasteboard.default";
+            }
+            result.append("|Owner       :  ")
+             .append(bundleName)
+             .append("\n")
+             .append("|Timestamp   :  ")
+             .append(timeForLastCopy_)
+             .append("\n")
+             .append("|Share Option: ")
+             .append(" CrossDevice").append("\n")
+             .append("|Record Count:  ")
+             .append(std::to_string(recordCounts)).append("\n")
+             .append("|Mime types  :  {");
+            if (!mimeTypes.empty()) {
+                for (size_t i = 0; i < mimeTypes.size(); ++i) {
+                    result.append(mimeTypes[i]).append(",");
+                }
+            }
+            result.append("}");
+    } else {
+        result.append("No copy data.").append("\n");
+    }
+    return result;
 }
 } // MiscServices
 } // OHOS

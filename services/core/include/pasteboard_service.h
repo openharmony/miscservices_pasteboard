@@ -25,13 +25,17 @@
 #include <atomic>
 #include <thread>
 #include <stack>
+#include <ctime>
+#include <sys/time.h>
 #include <condition_variable>
 #include <singleton.h>
 #include "event_handler.h"
 #include "i_pasteboard_observer.h"
 #include "paste_data.h"
+#include "pasteboard_dump_helper.h"
 #include "pasteboard_storage.h"
 #include "pasteboard_service_stub.h"
+#include "bundle_mgr_proxy.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -56,6 +60,13 @@ public:
     virtual void RemoveAllChangedObserver() override;
     virtual void OnStart() override;
     virtual void OnStop() override;
+
+    bool SetPasteboardHistory(int32_t uId, std::string state, std::string timeStamp);
+    int Dump(int fd, const std::vector<std::u16string> &args) override;
+    bool GetBundleNameByUid(int32_t uid, std::string &bundleName);
+    std::string DumpHistory() const;
+    std::string  DunmpData();
+
 private:
     struct classcomp {
         bool operator() (const sptr<IPasteboardChangedObserver>& l, const sptr<IPasteboardChangedObserver>& r) const
@@ -68,6 +79,7 @@ private:
     void NotifyObservers();
     void InitServiceHandler();
     void InitStorage();
+    std::string GetTime();
     ServiceRunningState state_;
     std::shared_ptr<AppExecFwk::EventHandler> serviceHandler_;
     std::shared_ptr<IPasteboardStorage> pasteboardStorage_ = nullptr;
@@ -76,6 +88,13 @@ private:
     std::map<int32_t, std::shared_ptr<std::set<const sptr<IPasteboardChangedObserver>, classcomp>>> observerMap_;
     const std::string filePath_ = "";
     std::map<int32_t, std::shared_ptr<PasteData>> clips_;
+
+    int32_t uIdForLastCopy_ = 0;
+    std::string timeForLastCopy_;
+    static std::vector<std::shared_ptr<std::string>> dataHistory_;
+    
+    static std::shared_ptr<Command> copyHistory;
+    static std::shared_ptr<Command> copyData;
 };
 } // MiscServices
 } // OHOS
