@@ -26,6 +26,11 @@ config("pasteboard_service_config") {
     "${pasteboard_utils_path}/native/include",
 
     "//base/miscservices/pasteboard/services/dfx/src",
+    "//base/miscservices/pasteboard/utils/native/include",
+    "//utils/native/base/include",
+    "//base/miscservices/pasteboard/services/dfx/src/behaviour",
+    "//base/miscservices/pasteboard/services/dfx/src/statistic",
+    "//base/miscservices/pasteboard/services/dfx/src/fault",
     "//foundation/bundlemanager/bundle_framework/interfaces/inner_api/appexecfwk_core/include/bundlemgr",
     "//foundation/bundlemanager/bundle_framework/interfaces/inner_api/appexecfwk_base/include",
   ]
@@ -45,6 +50,12 @@ ohos_shared_library("pasteboard_service") {
     "zidl/src/pasteboard_observer_stub.cpp",
     "zidl/src/pasteboard_service_proxy.cpp",
     "zidl/src/pasteboard_service_stub.cpp",
+    "//base/miscservices/pasteboard/services/dfx/src/hiview_adapter.cpp",
+    "//base/miscservices/pasteboard/services/dfx/src/calculate_time_consuming.cpp",
+    "//base/miscservices/pasteboard/services/dfx/src/reporter.cpp",
+    "//base/miscservices/pasteboard/services/dfx/src/statistic/time_consuming_statistic_impl.cpp",
+    "//base/miscservices/pasteboard/services/dfx/src/fault/initialization_fault_impl.cpp",
+    "//base/miscservices/pasteboard/services/dfx/src/behaviour/pasteboard_behaviour_reporter_impl.cpp",
   ]
   public_configs = [
     "//utils/native/base:utils_config",
@@ -52,7 +63,6 @@ ohos_shared_library("pasteboard_service") {
   ]
   deps = [
     "${pasteboard_innerkits_path}:pasteboard_client",
-    "//foundation/bundlemanager/bundle_framework/interfaces/inner_api/appexecfwk_core:appexecfwk_core",
     "//third_party/jsoncpp:jsoncpp",
     "//utils/native/base:utils",
   ]
@@ -69,6 +79,7 @@ ohos_shared_library("pasteboard_service") {
     "os_account:os_account_innerkits",
     "safwk:system_ability_fwk",
     "samgr_standard:samgr_proxy",
+    "appexecfwk_standard:appexecfwk_core",
   ]
   subsystem_name = "miscservices"
   part_name = "pasteboard_native"

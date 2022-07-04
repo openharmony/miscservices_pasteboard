@@ -17,7 +17,6 @@ import("//base/miscservices/pasteboard/pasteboard.gni")
 import("//build/config/features.gni")
 import("//build/ohos.gni")
 import("//build/test.gni")
-import("//foundation/ability/ability_runtime/ability_runtime.gni")
 
 ##############################fuzztest##########################################
 ohos_fuzztest("PasteboardServiceFuzzTest") {
@@ -55,6 +54,7 @@ ohos_fuzztest("PasteboardServiceFuzzTest") {
     "hiviewdfx_hilog_native:libhilog",
     "ipc:ipc_core",
     "safwk:system_ability_fwk",
+    "appexecfwk_standard:appexecfwk_core",
   ]
 }
 

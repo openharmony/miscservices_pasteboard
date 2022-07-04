@@ -32,9 +32,9 @@
 #include "event_handler.h"
 #include "i_pasteboard_observer.h"
 #include "paste_data.h"
-#include "pasteboard_dump_helper.h"
 #include "pasteboard_storage.h"
 #include "pasteboard_service_stub.h"
+#include "pasteboard_dump_helper.h"
 #include "bundle_mgr_proxy.h"
 
 namespace OHOS {
@@ -60,13 +60,12 @@ public:
     virtual void RemoveAllChangedObserver() override;
     virtual void OnStart() override;
     virtual void OnStop() override;
-
+    size_t GetDataSize(PasteData& data) const;
+    bool GetBundleNameByUid(int32_t uid, std::string &bundleName);
     bool SetPasteboardHistory(int32_t uId, std::string state, std::string timeStamp);
     int Dump(int fd, const std::vector<std::u16string> &args) override;
-    bool GetBundleNameByUid(int32_t uid, std::string &bundleName);
     std::string DumpHistory() const;
     std::string  DunmpData();
-
 private:
     struct classcomp {
         bool operator() (const sptr<IPasteboardChangedObserver>& l, const sptr<IPasteboardChangedObserver>& r) const

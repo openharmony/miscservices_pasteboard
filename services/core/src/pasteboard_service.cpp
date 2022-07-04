@@ -12,22 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "system_ability_definition.h"
+#include "pasteboard_service.h"
+
+#include <unistd.h>
+
+#include "dfx_code_constant.h"
+#include "dfx_types.h"
+#include "hiview_adapter.h"
 #include "iservice_registry.h"
 #include "os_account_manager.h"
 #include "pasteboard_common.h"
-#include "pasteboard_service.h"
+#include "reporter.h"
 #include "pasteboard_trace.h"
+#include "system_ability_definition.h"
+#include "calculate_time_consuming.h"
 
 namespace OHOS {
 namespace MiscServices {
 namespace {
+constexpr const int GET_WRONG_SIZE = 0;
 const std::int32_t INIT_INTERVAL = 10000L;
 const std::string PASTEBOARD_SERVICE_NAME = "PasteboardService";
 const std::int32_t ERROR_USERID = -1;
 const bool G_REGISTER_RESULT =
     SystemAbility::MakeAndRegisterAbility(DelayedSingleton<PasteboardService>::GetInstance().get());
-const std::string FAIL_TO_GET_TIME_STAMP = "FAIL_TO_GET_TIME_STAMP";
+    const std::string FAIL_TO_GET_TIME_STAMP = "FAIL_TO_GET_TIME_STAMP";
 }
 
 std::vector<std::shared_ptr<std::string>> PasteboardService::dataHistory_;
@@ -47,6 +56,8 @@ int32_t PasteboardService::Init()
 {
     if (!Publish(DelayedSingleton<PasteboardService>::GetInstance().get())) {
         PASTEBOARD_HILOGI(PASTEBOARD_MODULE_SERVICE, "OnStart register to system ability manager failed.");
+        auto userId = GetUserId();
+        Reporter::GetInstance().InitializationFault().Report({ userId, "ERR_INVALID_OPTION" });
         return ERR_INVALID_OPTION;
     }
     PASTEBOARD_HILOGI(PASTEBOARD_MODULE_SERVICE, "Init Success.");
@@ -84,7 +95,9 @@ void PasteboardService::OnStart()
 
     PasteboardDumpHelper::GetInstance().RegisterCommand(copyHistory);
     PasteboardDumpHelper::GetInstance().RegisterCommand(copyData);
+
     PASTEBOARD_HILOGI(PASTEBOARD_MODULE_SERVICE, "Start PasteboardService success.");
+    HiViewAdapter::StartTimerThread();
     return;
 }
 
@@ -145,9 +158,26 @@ bool PasteboardService::GetPasteData(PasteData& data)
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "start.");
     auto userId = GetUserId();
 
-    int32_t uid = IPCSkeleton::GetCallingUid();
+    int32_t uId = IPCSkeleton::GetCallingUid();
+    std::string bundleName;
     std::string time = GetTime();
-    SetPasteboardHistory(uid, "Get", time);
+    SetPasteboardHistory(uId, "Get", time);
+    if (GetBundleNameByUid(uId, bundleName)) {
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "get bundleName success!");
+    } else {
+        bundleName = "com.pasteboard.default";
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "defaulit bundlename");
+    }
+    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "GetPasteData Report!");
+    Reporter::GetInstance().PasteboardBehaviour().Report({ static_cast<int>(Fault::PB_PASTE_STATE), bundleName });
+
+    if (!clips_.empty()) {
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "GetPasteData GetDataSize");
+        int state = static_cast<int>(Fault::TCS_PASTE_STATE);
+        size_t dataSize = GetDataSize(*(clips_.rbegin()->second));
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "GetPasteData timeC");
+        CalculateTimeConsuming timeC(dataSize, state);
+    }
 
     if (userId == ERROR_USERID) {
         return false;
@@ -182,11 +212,26 @@ void PasteboardService::SetPasteData(PasteData& pasteData)
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "start.");
     auto userId = GetUserId();
 
-    int32_t uid = IPCSkeleton::GetCallingUid();
-    uIdForLastCopy_ = uid;
+    int32_t uId = IPCSkeleton::GetCallingUid();
+    uIdForLastCopy_ = uId;
     std::string time = GetTime();
     timeForLastCopy_ = time;
-    SetPasteboardHistory(uid, "Set", time);
+    SetPasteboardHistory(uId, "Set", time);
+    std::string bundleName;
+    if (GetBundleNameByUid(uId, bundleName)) {
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "get bundleName success!");
+    } else {
+        bundleName = "com.pasteboard.default";
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "default bundleName!");
+    }
+    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "SetPasteData Report!");
+    Reporter::GetInstance().PasteboardBehaviour().Report({ static_cast<int>(Fault::PB_COPY_STATE), bundleName });
+
+    int state = static_cast<int>(Fault::TCS_COPY_STATE);
+    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "SetPasteData GetDataSize!");
+    size_t dataSize = GetDataSize(pasteData);
+    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "SetPasteData timeC!");
+    CalculateTimeConsuming timeC(dataSize, state);
 
     if (userId == ERROR_USERID) {
         return;
@@ -292,6 +337,33 @@ void PasteboardService::NotifyObservers()
     }
 }
 
+size_t PasteboardService::GetDataSize(PasteData& data) const
+{
+    if (data.GetRecordCount() != 0) {
+        size_t counts = data.GetRecordCount() - 1;
+        std::shared_ptr<PasteDataRecord> records = data.GetRecordAt(counts);
+        std::string text = records->ConvertToText();
+        size_t textSize = text.size();
+        return textSize;
+    }
+    return GET_WRONG_SIZE;
+}
+
+bool PasteboardService::GetBundleNameByUid(int32_t uid, std::string &bundleName)
+{
+    OHOS::sptr<OHOS::ISystemAbilityManager> systemAbilityManager =
+        OHOS::SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
+    OHOS::sptr<OHOS::IRemoteObject> remoteObject =
+        systemAbilityManager->GetSystemAbility(BUNDLE_MGR_SERVICE_SYS_ABILITY_ID);
+
+    sptr<AppExecFwk::IBundleMgr> iBundleMgr = OHOS::iface_cast<AppExecFwk::IBundleMgr>(remoteObject);
+    if (iBundleMgr == nullptr) {
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, " permission check failed, cannot get IBundleMgr.");
+        return false;
+    }
+    return iBundleMgr->GetBundleNameForUid(uid, bundleName);
+}
+
 bool PasteboardService::SetPasteboardHistory(int32_t uId, std::string state, std::string timeStamp)
 {
     constexpr const size_t DATA_HISTORY_SIZE = 10;
@@ -328,21 +400,6 @@ int PasteboardService::Dump(int fd, const std::vector<std::u16string> &args)
         return 0;
     }
     return 0;
-}
-
-bool PasteboardService::GetBundleNameByUid(int32_t uid, std::string &bundleName)
-{
-    OHOS::sptr<OHOS::ISystemAbilityManager> systemAbilityManager =
-        OHOS::SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
-    OHOS::sptr<OHOS::IRemoteObject> remoteObject =
-        systemAbilityManager->GetSystemAbility(BUNDLE_MGR_SERVICE_SYS_ABILITY_ID);
-
-    sptr<AppExecFwk::IBundleMgr> iBundleMgr = OHOS::iface_cast<AppExecFwk::IBundleMgr>(remoteObject);
-    if (iBundleMgr == nullptr) {
-        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, " permission check failed, cannot get IBundleMgr.");
-        return false;
-    }
-    return iBundleMgr->GetBundleNameForUid(uid, bundleName);
 }
 
 std::string PasteboardService::GetTime()
