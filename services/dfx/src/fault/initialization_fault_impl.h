@@ -22,7 +22,6 @@ namespace OHOS {
 namespace MiscServices {
 class InitializationFaultImpl : public FaultReporter {
 public:
-    virtual ~InitializationFaultImpl() {}
     ReportStatus Report(const InitializationFaultMsg &msg) override;
 };
 }  // namespace MiscServices

@@ -23,7 +23,6 @@ namespace OHOS {
 namespace MiscServices {
 class PasteboardBehaviourReporterImpl : public BehaviourReporter {
 public:
-    virtual ~PasteboardBehaviourReporterImpl() {}
     ReportStatus Report(const struct PasteboardBehaviourMsg &msg) override;
 };
 }  // namespace MiscServices

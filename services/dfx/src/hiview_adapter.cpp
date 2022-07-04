@@ -24,7 +24,7 @@ namespace OHOS {
 using namespace HiviewDFX;
 namespace MiscServices {
 namespace {
-//fault key
+// fault key
 constexpr const char *USER_ID = "USER_ID";
 constexpr const char *ERROR_TYPE = "ERROR_TYPE";
 // Time Consuming Statistic
@@ -68,7 +68,7 @@ constexpr const char *PASTE_STATE = "PASTE_STATE";
 
 constexpr const int INIT_COPY_TIME_SONSUMING = 80;
 constexpr const int INIT_PASTE_TIME_SONSUMING = 81;
-//behaviour key
+// behaviour key
 
 const std::map<int, std::string> EVENT_COVERT_TABLE = {
     { DfxCodeConstant::INITIALIZATION_FAULT, "INITIALIZATION_FAULT" },
@@ -138,17 +138,13 @@ std::map<int, int> HiViewAdapter::InitTimeMap()
     timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_ELEVEN),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ELEVEN)));
     return timeMap;
-
 }
 
 void HiViewAdapter::ReportInitializationFault(int dfxCode, const InitializationFaultMsg &msg)
 {
-    int ret = HiSysEvent::Write(DOMAIN_STR,
-                        CoverEventID(dfxCode),
-                        HiSysEvent::EventType::FAULT,
-                        USER_ID, msg.userId,
-                        ERROR_TYPE, msg.errorCode);
-     if (ret != 0) {
+    int ret = HiSysEvent::Write(DOMAIN_STR, CoverEventID(dfxCode), HiSysEvent::EventType::FAULT, USER_ID, msg.userId,
+        ERROR_TYPE, msg.errorCode);
+    if (ret != 0) {
         PASTEBOARD_HILOGD(
             PASTEBOARD_MODULE_SERVICE, "hisysevent write failed! ret %{public}d. errCode %{public}d", ret, dfxCode);
     }
@@ -256,7 +252,7 @@ void HiViewAdapter::CopyTimeConsuming(const TimeConsumingStat &stat, int level)
 void HiViewAdapter::PasteTimeConsuming(const TimeConsumingStat &stat, int level)
 {
     auto iter = timeMap_.find(stat.timeConsuming);
-    if(iter != timeMap_.end()) {
+    if (iter != timeMap_.end()) {
         PasteTimeConsumingCount(stat, level, iter->second);
     } else {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "wrong time level");
@@ -321,7 +317,6 @@ const char *HiViewAdapter::GetDataLevel(int dataLevel)
 void HiViewAdapter::InvokeTimeConsuming()
 {
     std::lock_guard<std::mutex> lock(timeConsumingMutex_);
-    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "InvokeTimeConsuming start");
     if (!copyTimeConsumingStat_.empty()) {
         int i = 0;
         for (auto iter = copyTimeConsumingStat_.begin(); iter != copyTimeConsumingStat_.end(); ++iter) {
@@ -343,9 +338,7 @@ void HiViewAdapter::InvokeTimeConsuming()
             }
             ++i;
         }
-    } else {
-        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent copyTimeConsumingStat_ is empty.");
-    }
+    } else { PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent copyTimeConsumingStat_ is empty."); }
     if (!pasteTimeConsumingStat_.empty()) {
         int i = 0;
         for (auto iter = pasteTimeConsumingStat_.begin(); iter != pasteTimeConsumingStat_.end(); ++iter) {
@@ -367,12 +360,9 @@ void HiViewAdapter::InvokeTimeConsuming()
             }
             ++i;
         }
-    } else {
-        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent pasteTimeConsumingStat_ is empty.");
-    }
+    } else { PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent pasteTimeConsumingStat_ is empty."); }
     copyTimeConsumingStat_.clear();
     pasteTimeConsumingStat_.clear();
-    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "InvokeTimeConsuming end");
 }
 
 void HiViewAdapter::ReportBehaviour(std::map<std::string, int> &behaviour, const char *STATE_PASTEBOARD)
@@ -403,19 +393,18 @@ void HiViewAdapter::ReportBehaviour(std::map<std::string, int> &behaviour, const
             ++j;
         }
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "ReportBehaviour report  ");
-        int ret = HiSysEvent::Write(DOMAIN_STR,
-                                        CoverEventID(DfxCodeConstant::PASTEBOARD_BEHAVIOUR),
-                                        HiSysEvent::EventType::BEHAVIOR,
-                                        TOP_ONE_APP, appPackName[0],
-                                        TOP_TOW_APP, appPackName[1],
-                                        TOP_THREE_APP, appPackName[2],
-                                        TOP_FOUR_APP, appPackName[3],
-                                        TOP_FIVE_APP, appPackName[4],
-                                        TOP_SIX_APP, appPackName[5],
-                                        TOP_SEVEN_APP, appPackName[6],
-                                        TOP_EIGHT_APP, appPackName[7],
-                                        TOP_NINE_APP, appPackName[8],
-                                        TOP_TEN_APP, appPackName[9]);
+        int ret = HiSysEvent::Write(DOMAIN_STR, CoverEventID(DfxCodeConstant::PASTEBOARD_BEHAVIOUR),
+            HiSysEvent::EventType::BEHAVIOR,
+            TOP_ONE_APP, appPackName[0],
+            TOP_TOW_APP, appPackName[1],
+            TOP_THREE_APP, appPackName[2],
+            TOP_FOUR_APP, appPackName[3],
+            TOP_FIVE_APP, appPackName[4],
+            TOP_SIX_APP, appPackName[5],
+            TOP_SEVEN_APP, appPackName[6],
+            TOP_EIGHT_APP, appPackName[7],
+            TOP_NINE_APP, appPackName[8],
+            TOP_TEN_APP, appPackName[9]);
         if (ret != 0) {
             PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent write failed! ret %{public}d.", ret);
         }

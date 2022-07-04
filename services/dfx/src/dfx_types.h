@@ -22,7 +22,6 @@
 
 namespace OHOS {
 namespace MiscServices {
-
 enum class Fault {
     // Time Consuming Stat
     TCS_COPY_STATE = 47,
