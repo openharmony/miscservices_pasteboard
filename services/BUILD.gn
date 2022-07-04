@@ -63,6 +63,7 @@ ohos_shared_library("pasteboard_service") {
   ]
   deps = [
     "${pasteboard_innerkits_path}:pasteboard_client",
+    "//foundation/bundlemanager/bundle_framework/interfaces/inner_api/appexecfwk_core:appexecfwk_core",
     "//third_party/jsoncpp:jsoncpp",
     "//utils/native/base:utils",
   ]
@@ -70,7 +71,6 @@ ohos_shared_library("pasteboard_service") {
   external_deps = [
     "ability_base:want",
     "ability_runtime:abilitykit_native",
-    "appexecfwk_standard:appexecfwk_core",
     "eventhandler:libeventhandler",
     "hisysevent_native:libhisysevent",
     "hitrace_native:hitrace_meter",
