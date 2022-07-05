@@ -394,6 +394,7 @@ void HiViewAdapter::ReportBehaviour(std::map<std::string, int> &behaviour, const
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "ReportBehaviour report  ");
         int ret = HiSysEvent::Write(DOMAIN_STR, CoverEventID(DfxCodeConstant::PASTEBOARD_BEHAVIOUR),
             HiSysEvent::EventType::BEHAVIOR,
+            PASTEBOARD_STATE, STATE_PASTEBOARD,
             TOP_ONE_APP, appPackName[0],
             TOP_TOW_APP, appPackName[1],
             TOP_THREE_APP, appPackName[2],
