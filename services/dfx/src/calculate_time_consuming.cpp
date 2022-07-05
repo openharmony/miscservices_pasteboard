@@ -65,7 +65,7 @@ CalculateTimeConsuming::~CalculateTimeConsuming()
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "~CalculateTimeConsuming()");
 }
 
-int CalculateTimeConsuming::CalculateData(const size_t calPasteboardData)
+int CalculateTimeConsuming::CalculateData(size_t calPasteboardData)
 {
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "CalculateData() enter");
     if (calPasteboardData % M_BTYE == 0) {

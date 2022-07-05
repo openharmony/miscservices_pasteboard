@@ -87,7 +87,7 @@ void PasteboardService::OnStart()
             return true;
         });
 
-    copyData = std::make_shared<Command>(std::vector<std::string>{ "-data" }, "Show copy data details.",
+    copyData = std::make_shared<Command>(std::vector<std::string>{ "--data" }, "Show copy data details.",
         [this](const std::vector<std::string> &input, std::string &output) -> bool {
             output = DunmpData();
             return true;
@@ -158,11 +158,11 @@ bool PasteboardService::GetPasteData(PasteData& data)
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "start.");
     auto userId = GetUserId();
 
-    int32_t uId = IPCSkeleton::GetCallingUid();
+    int32_t uid = IPCSkeleton::GetCallingUid();
     std::string bundleName;
     std::string time = GetTime();
-    SetPasteboardHistory(uId, "Get", time);
-    if (GetBundleNameByUid(uId, bundleName)) {
+    SetPasteboardHistory(uid, "Get", time);
+    if (GetBundleNameByUid(uid, bundleName)) {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "get bundleName success!");
     } else {
         bundleName = "com.pasteboard.default";
@@ -175,8 +175,8 @@ bool PasteboardService::GetPasteData(PasteData& data)
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "GetPasteData GetDataSize");
         int state = static_cast<int>(Fault::TCS_PASTE_STATE);
         size_t dataSize = GetDataSize(*(clips_.rbegin()->second));
-        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "GetPasteData timeC");
-        CalculateTimeConsuming timeC(dataSize, state);
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "GetPasteData timeCalculate");
+        CalculateTimeConsuming timeCalculate(dataSize, state);
     }
 
     if (userId == ERROR_USERID) {
@@ -212,13 +212,13 @@ void PasteboardService::SetPasteData(PasteData& pasteData)
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "start.");
     auto userId = GetUserId();
 
-    int32_t uId = IPCSkeleton::GetCallingUid();
-    uIdForLastCopy_ = uId;
+    int32_t uid = IPCSkeleton::GetCallingUid();
+    uIdForLastCopy_ = uid;
     std::string time = GetTime();
     timeForLastCopy_ = time;
-    SetPasteboardHistory(uId, "Set", time);
+    SetPasteboardHistory(uid, "Set", time);
     std::string bundleName;
-    if (GetBundleNameByUid(uId, bundleName)) {
+    if (GetBundleNameByUid(uid, bundleName)) {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "get bundleName success!");
     } else {
         bundleName = "com.pasteboard.default";
@@ -230,8 +230,8 @@ void PasteboardService::SetPasteData(PasteData& pasteData)
     int state = static_cast<int>(Fault::TCS_COPY_STATE);
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "SetPasteData GetDataSize!");
     size_t dataSize = GetDataSize(pasteData);
-    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "SetPasteData timeC!");
-    CalculateTimeConsuming timeC(dataSize, state);
+    PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "SetPasteData timeCalculate!");
+    CalculateTimeConsuming timeCalculate(dataSize, state);
 
     if (userId == ERROR_USERID) {
         return;
@@ -364,11 +364,11 @@ bool PasteboardService::GetBundleNameByUid(int32_t uid, std::string &bundleName)
     return iBundleMgr->GetBundleNameForUid(uid, bundleName);
 }
 
-bool PasteboardService::SetPasteboardHistory(int32_t uId, std::string state, std::string timeStamp)
+bool PasteboardService::SetPasteboardHistory(int32_t uid, std::string state, std::string timeStamp)
 {
     constexpr const size_t DATA_HISTORY_SIZE = 10;
     std::string bundleName;
-    if (GetBundleNameByUid(uId, bundleName)) {
+    if (GetBundleNameByUid(uid, bundleName)) {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "get bundleName success!");
     } else {
         bundleName = "com.pasteboard.default";
@@ -405,23 +405,23 @@ int PasteboardService::Dump(int fd, const std::vector<std::u16string> &args)
 std::string PasteboardService::GetTime()
 {
     constexpr int USEC_TO_MSEC = 1000;
-    time_t time_seconds = time(0);
-    if (time_seconds == -1) {
+    time_t timeSeconds = time(0);
+    if (timeSeconds == -1) {
         return FAIL_TO_GET_TIME_STAMP;
     }
-    struct tm now_time;
-    localtime_r(&time_seconds, &now_time);
+    struct tm nowTime;
+    localtime_r(&timeSeconds, &nowTime);
 
-    struct timeval tv = { 0, 0 };
-    gettimeofday(&tv, nullptr);
+    struct timeval timeVal = { 0, 0 };
+    gettimeofday(&timeVal, nullptr);
 
-    std::string targetTime = std::to_string(now_time.tm_year + 1900) + "-"
-                             + std::to_string(now_time.tm_mon + 1) + "-"
-                             + std::to_string(now_time.tm_mday) + " "
-                             + std::to_string(now_time.tm_hour) + ":"
-                             + std::to_string(now_time.tm_min) + ":"
-                             + std::to_string(now_time.tm_sec) + "."
-                             + std::to_string(tv.tv_usec / USEC_TO_MSEC);
+    std::string targetTime = std::to_string(nowTime.tm_year + 1900) + "-"
+                             + std::to_string(nowTime.tm_mon + 1) + "-"
+                             + std::to_string(nowTime.tm_mday) + " "
+                             + std::to_string(nowTime.tm_hour) + ":"
+                             + std::to_string(nowTime.tm_min) + ":"
+                             + std::to_string(nowTime.tm_sec) + "."
+                             + std::to_string(timeVal.tv_usec / USEC_TO_MSEC);
     return targetTime;
 }
 

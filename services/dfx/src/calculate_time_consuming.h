@@ -29,7 +29,7 @@ public:
 private:
     static uint64_t GetCurrentTimeMicros();
     int CalculateTime(uint64_t time);
-    int CalculateData(const size_t calPasteboardData);
+    int CalculateData(size_t calPasteboardData);
     
     int pasteboardData_;
     int pasteboardState_;
