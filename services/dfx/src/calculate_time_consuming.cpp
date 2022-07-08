@@ -34,7 +34,7 @@ CalculateTimeConsuming::~CalculateTimeConsuming()
 {
     uint64_t delta = GetCurrentTimeMicros() - lastTime_;
     int calculateTime = CalculateTime(delta);
-    Reporter::GetInstance().TimeConsumingStatistic().Report({ pasteboardState_, pasteboardData_, calculateTime });
+    Reporter::GetInstance().TimeConsumingStatistic().Report( { pasteboardState_, pasteboardData_, calculateTime } );
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "~CalculateTimeConsuming()");
 }
 
