@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (C) 2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -7,7 +7,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * miscservices under the License is miscservices on an "AS IS" BASIS,
+ * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -24,51 +24,6 @@ namespace OHOS {
 using namespace HiviewDFX;
 namespace MiscServices {
 namespace {
-// fault key
-constexpr const char *USER_ID = "USER_ID";
-constexpr const char *ERROR_TYPE = "ERROR_TYPE";
-// Time Consuming Statistic
-constexpr const char *PASTEBOARD_STATE = "PASTEBOARD_STATE";
-constexpr const char *DATA_LEVEL = "DATA_LEVEL";
-constexpr const char *ZERO_TO_HUNDRED_KB = "ZERO_TO_HUNDRED_KB";
-constexpr const char *HUNDRED_TO_FIVE_HUNDREDS_KB = "HUNDRED_TO_FIVE_HUNDREDS_KB";
-constexpr const char *FIVE_HUNDREDS_TO_THOUSAND_KB = "FIVE_HUNDREDS_TO_THOUSAND_KB";
-constexpr const char *ONE_TO_FIVE_MB = "ONE_TO_FIVE_MB";
-constexpr const char *FIVE_TO_TEN_MB = "FIVE_TO_TEN_MB";
-constexpr const char *TEN_TO_FIFTY_MB = "TEN_TO_FIFTY_MB";
-constexpr const char *OVER_FIFTY_MB = "OVER_FIFTY_MB";
-
-constexpr const char *TIME_CONSUMING_LEVEL_ONE = "TIME_CONSUMING_LEVEL_ONE";
-constexpr const char *TIME_CONSUMING_LEVEL_TWO = "TIME_CONSUMING_LEVEL_TWO";
-constexpr const char *TIME_CONSUMING_LEVEL_THREE = "TIME_CONSUMING_LEVEL_THREE";
-constexpr const char *TIME_CONSUMING_LEVEL_FOUR = "TIME_CONSUMING_LEVEL_FOUR";
-constexpr const char *TIME_CONSUMING_LEVEL_FIVE = "TIME_CONSUMING_LEVEL_FIVE";
-constexpr const char *TIME_CONSUMING_LEVEL_SIX = "TIME_CONSUMING_LEVEL_SIX";
-constexpr const char *TIME_CONSUMING_LEVEL_SEVEN = "TIME_CONSUMING_LEVEL_SEVEN";
-constexpr const char *TIME_CONSUMING_LEVEL_EIGHT = "TIME_CONSUMING_LEVEL_EIGHT";
-constexpr const char *TIME_CONSUMING_LEVEL_NINE = "TIME_CONSUMING_LEVEL_NINE";
-constexpr const char *TIME_CONSUMING_LEVEL_TEN = "TIME_CONSUMING_LEVEL_TEN";
-constexpr const char *TIME_CONSUMING_LEVEL_ELEVEN = "TIME_CONSUMING_LEVEL_ELEVEN";
-
-constexpr const char *TOP_ONE_APP = "TOP_ONE_APP";
-constexpr const char *TOP_TOW_APP = "TOP_TOW_APP";
-constexpr const char *TOP_THREE_APP = "TOP_THREE_APP";
-constexpr const char *TOP_FOUR_APP = "TOP_FOUR_APP";
-constexpr const char *TOP_FIVE_APP = "TOP_FIVE_APP";
-constexpr const char *TOP_SIX_APP = "TOP_SIX_APP";
-constexpr const char *TOP_SEVEN_APP = "TOP_SEVEN_APP";
-constexpr const char *TOP_EIGHT_APP = "TOP_EIGHT_APP";
-constexpr const char *TOP_NINE_APP = "TOP_NINE_APP";
-constexpr const char *TOP_TEN_APP = "TOP_TEN_APP";
-
-constexpr const char *WRONG_LEVEL = "WRONG_LEVEL";
-
-constexpr const char *COPY_STATE = "COPY_STATE";
-constexpr const char *PASTE_STATE = "PASTE_STATE";
-
-constexpr const int INIT_COPY_TIME_SONSUMING = 80;
-constexpr const int INIT_PASTE_TIME_SONSUMING = 81;
-// behaviour key
 
 const std::map<int, std::string> EVENT_COVERT_TABLE = {
     { DfxCodeConstant::INITIALIZATION_FAULT, "INITIALIZATION_FAULT" },
@@ -179,7 +134,7 @@ void HiViewAdapter::InitializeTimeConsuming(int initFlag)
     }
 }
 
-void HiViewAdapter::ReportTimeConsumingStatistic(int dfxCode, const TimeConsumingStat &stat)
+void HiViewAdapter::ReportTimeConsumingStatistic(const TimeConsumingStat &stat)
 {
     std::lock_guard<std::mutex> lock(timeConsumingMutex_);
     if (copyTimeConsumingStat_.empty()) {
@@ -211,7 +166,7 @@ void HiViewAdapter::ReportTimeConsumingStatistic(int dfxCode, const TimeConsumin
     }
 }
 
-void HiViewAdapter::CopyTimeConsumingCount(const TimeConsumingStat &stat, int dataLevel, int timeLevel)
+void HiViewAdapter::CopyTimeConsumingCount(int dataLevel, int timeLevel)
 {
     if (static_cast<int>(copyTimeConsumingStat_.size()) <= dataLevel) {
         return;
@@ -225,7 +180,7 @@ void HiViewAdapter::CopyTimeConsumingCount(const TimeConsumingStat &stat, int da
     }
 }
 
-void HiViewAdapter::PasteTimeConsumingCount(const TimeConsumingStat &stat, int dataLevel, int timeLevel)
+void HiViewAdapter::PasteTimeConsumingCount(int dataLevel, int timeLevel)
 {
     if (static_cast<int>(pasteTimeConsumingStat_.size()) <= dataLevel) {
         return;
@@ -243,7 +198,7 @@ void HiViewAdapter::CopyTimeConsuming(const TimeConsumingStat &stat, int level)
 {
     auto iter = timeMap_.find(stat.timeConsuming);
     if (iter != timeMap_.end()) {
-        CopyTimeConsumingCount(stat, level, iter->second);
+        CopyTimeConsumingCount(level, iter->second);
     } else {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "wrong time level");
     }
@@ -253,13 +208,13 @@ void HiViewAdapter::PasteTimeConsuming(const TimeConsumingStat &stat, int level)
 {
     auto iter = timeMap_.find(stat.timeConsuming);
     if (iter != timeMap_.end()) {
-        PasteTimeConsumingCount(stat, level, iter->second);
+        PasteTimeConsumingCount(level, iter->second);
     } else {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "wrong time level");
     }
 }
 
-void HiViewAdapter::ReportPasteboardBehaviour(int dfxCode, const PasteboardBehaviourMsg &msg)
+void HiViewAdapter::ReportPasteboardBehaviour(const PasteboardBehaviourMsg &msg)
 {
     std::lock_guard<std::mutex> lock(behaviourMutex_);
 
@@ -364,7 +319,7 @@ void HiViewAdapter::InvokeTimeConsuming()
     pasteTimeConsumingStat_.clear();
 }
 
-void HiViewAdapter::ReportBehaviour(std::map<std::string, int> &behaviour, const char *STATE_PASTEBOARD)
+void HiViewAdapter::ReportBehaviour(std::map<std::string, int> &behaviour, const char *pasteboardState)
 {
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "ReportBehaviour  enter");
     if (!behaviour.empty()) {
@@ -394,7 +349,7 @@ void HiViewAdapter::ReportBehaviour(std::map<std::string, int> &behaviour, const
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "ReportBehaviour report  ");
         int ret = HiSysEvent::Write(DOMAIN_STR, CoverEventID(DfxCodeConstant::PASTEBOARD_BEHAVIOUR),
             HiSysEvent::EventType::BEHAVIOR,
-            PASTEBOARD_STATE, STATE_PASTEBOARD,
+            PASTEBOARD_STATE, pasteboardState,
             TOP_ONE_APP, appPackName[0],
             TOP_TOW_APP, appPackName[1],
             TOP_THREE_APP, appPackName[2],
@@ -459,7 +414,7 @@ void HiViewAdapter::StartTimerThread()
             if ((EXEC_MIN_TIME - currentMin) != EXEC_MIN_TIME) {
                 int nHours = EXEC_HOUR_TIME - currentHour;
                 int nMin = EXEC_MIN_TIME - currentMin;
-                int nTime = (nMin)*ONE_MINUTE_IN_SECONDS + (nHours)*ONE_HOUR_IN_SECONDS;
+                int nTime = (nMin) * ONE_MINUTE_IN_SECONDS + (nHours) * ONE_HOUR_IN_SECONDS;
                 PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE,
                     " StartTimerThread if needHours=%{public}d,needMin=%{public}d,needTime=%{public}d", nHours,
                     nMin, nTime);

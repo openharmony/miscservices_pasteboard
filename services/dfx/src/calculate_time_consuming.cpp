@@ -22,33 +22,6 @@
 
 namespace OHOS {
 namespace MiscServices {
-namespace {
-constexpr const int M_BTYE = 1024;
-
-constexpr int TC_ZERO_KB = 0;
-constexpr int TC_HUNDRED_KB = 100;
-constexpr int TC_FIVE_HUNDRED = 500;
-
-constexpr int TC_ONE_MB = 1;
-constexpr int TC_FIVE_MB = 5;
-constexpr int TC_TEN_MB = 10;
-constexpr int TC_FIFTY_MB = 50;
-
-constexpr int FIVE_HUNDRED_MS = 500;
-constexpr int PER_FIVE_HUNDRED_MS_ZERO = 0;
-constexpr int PER_FIVE_HUNDRED_MS_ONE = 1;
-constexpr int PER_FIVE_HUNDRED_MS_TWO = 2;
-constexpr int PER_FIVE_HUNDRED_MS_THREE = 3;
-constexpr int PER_FIVE_HUNDRED_MS_FOUR = 4;
-constexpr int PER_FIVE_HUNDRED_MS_FIVE = 5;
-constexpr int PER_FIVE_HUNDRED_MS_SIX = 6;
-constexpr int PER_FIVE_HUNDRED_MS_SEVEN = 7;
-constexpr int PER_FIVE_HUNDRED_MS_EIGHT = 8;
-constexpr int PER_FIVE_HUNDRED_MS_NINE = 9;
-
-constexpr int64_t SEC_TO_MILLISEC = 1000;
-constexpr int64_t MICROSEC_TO_MILLISEC = 1000;
-}
 CalculateTimeConsuming::CalculateTimeConsuming(const size_t calPasteboardData, const int calPasteboardState)
     : pasteboardState_(calPasteboardState)
 {
@@ -60,12 +33,12 @@ CalculateTimeConsuming::CalculateTimeConsuming(const size_t calPasteboardData, c
 CalculateTimeConsuming::~CalculateTimeConsuming()
 {
     uint64_t delta = GetCurrentTimeMicros() - lastTime_;
-    int culTime = CalculateTime(delta);
-    Reporter::GetInstance().TimeConsumingStatistic().Report({ pasteboardState_, pasteboardData_, culTime });
+    int calculateTime = CalculateTime(delta);
+    Reporter::GetInstance().TimeConsumingStatistic().Report({ pasteboardState_, pasteboardData_, calculateTime });
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "~CalculateTimeConsuming()");
 }
 
-int CalculateTimeConsuming::CalculateData(size_t calPasteboardData)
+int CalculateTimeConsuming::CalculateData(size_t calPasteboardData) const
 {
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "CalculateData() enter");
     if (calPasteboardData % M_BTYE == 0) {

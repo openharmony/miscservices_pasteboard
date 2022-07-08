@@ -19,7 +19,7 @@ namespace OHOS {
 namespace MiscServices {
 ReportStatus TimeConsumingStatisticImpl::Report(const TimeConsumingStat &stat)
 {
-    HiViewAdapter::ReportTimeConsumingStatistic(DfxCodeConstant::TIME_CONSUMING_STATISTIC, stat);
+    HiViewAdapter::ReportTimeConsumingStatistic(stat);
     return ReportStatus::SUCCESS;
 }
 } // namespace MiscServices

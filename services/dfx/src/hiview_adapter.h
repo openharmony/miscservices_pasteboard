@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (C) 2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -7,7 +7,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * miscservices under the License is miscservices on an "AS IS" BASIS,
+ * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -55,8 +55,8 @@ class HiViewAdapter {
 public:
     ~HiViewAdapter();
     static void ReportInitializationFault(int dfxCode, const InitializationFaultMsg &msg);
-    static void ReportTimeConsumingStatistic(int dfxCode, const TimeConsumingStat &stat);
-    static void ReportPasteboardBehaviour(int dfxCode, const PasteboardBehaviourMsg &msg);
+    static void ReportTimeConsumingStatistic(const TimeConsumingStat &stat);
+    static void ReportPasteboardBehaviour(const PasteboardBehaviourMsg &msg);
     static void StartTimerThread();
     static std::map<int, int> InitDataMap();
     static std::map<int, int> InitTimeMap();
@@ -64,8 +64,8 @@ public:
 private:
     static void InvokePasteBoardBehaviour();
     static void InitializeTimeConsuming(int initFlag);
-    static void CopyTimeConsumingCount(const TimeConsumingStat &stat, int dataLevel, int timeLevel);
-    static void PasteTimeConsumingCount(const TimeConsumingStat &stat, int dataLevel, int timeLevel);
+    static void CopyTimeConsumingCount(int dataLevel, int timeLevel);
+    static void PasteTimeConsumingCount(int dataLevel, int timeLevel);
     static void CopyTimeConsuming(const TimeConsumingStat &stat, int level);
     static void PasteTimeConsuming(const TimeConsumingStat &stat, int level);
     static const char *GetDataLevel(int dataLevel);
@@ -93,6 +93,51 @@ private:
     static const inline int EXEC_MIN_TIME = 60;
     static const inline int ONE_MINUTE_IN_SECONDS  = 60;
     static const inline int ONE_HOUR_IN_SECONDS = 1 * 60 * 60; // 1 hour
+// fault key
+    static const char *USER_ID = "USER_ID";
+    static const char *ERROR_TYPE = "ERROR_TYPE";
+// statistic key
+    static const char *PASTEBOARD_STATE = "PASTEBOARD_STATE";
+    static const char *DATA_LEVEL = "DATA_LEVEL";
+
+    static const char *ZERO_TO_HUNDRED_KB = "ZERO_TO_HUNDRED_KB";
+    static const char *HUNDRED_TO_FIVE_HUNDREDS_KB = "HUNDRED_TO_FIVE_HUNDREDS_KB";
+    static const char *FIVE_HUNDREDS_TO_THOUSAND_KB = "FIVE_HUNDREDS_TO_THOUSAND_KB";
+    static const char *ONE_TO_FIVE_MB = "ONE_TO_FIVE_MB";
+    static const char *FIVE_TO_TEN_MB = "FIVE_TO_TEN_MB";
+    static const char *TEN_TO_FIFTY_MB = "TEN_TO_FIFTY_MB";
+    static const char *OVER_FIFTY_MB = "OVER_FIFTY_MB";
+
+    static const char *TIME_CONSUMING_LEVEL_ONE = "TIME_CONSUMING_LEVEL_ONE";
+    static const char *TIME_CONSUMING_LEVEL_TWO = "TIME_CONSUMING_LEVEL_TWO";
+    static const char *TIME_CONSUMING_LEVEL_THREE = "TIME_CONSUMING_LEVEL_THREE";
+    static const char *TIME_CONSUMING_LEVEL_FOUR = "TIME_CONSUMING_LEVEL_FOUR";
+    static const char *TIME_CONSUMING_LEVEL_FIVE = "TIME_CONSUMING_LEVEL_FIVE";
+    static const char *TIME_CONSUMING_LEVEL_SIX = "TIME_CONSUMING_LEVEL_SIX";
+    static const char *TIME_CONSUMING_LEVEL_SEVEN = "TIME_CONSUMING_LEVEL_SEVEN";
+    static const char *TIME_CONSUMING_LEVEL_EIGHT = "TIME_CONSUMING_LEVEL_EIGHT";
+    static const char *TIME_CONSUMING_LEVEL_NINE = "TIME_CONSUMING_LEVEL_NINE";
+    static const char *TIME_CONSUMING_LEVEL_TEN = "TIME_CONSUMING_LEVEL_TEN";
+    static const char *TIME_CONSUMING_LEVEL_ELEVEN = "TIME_CONSUMING_LEVEL_ELEVEN";
+// behaviour key
+    static const char *TOP_ONE_APP = "TOP_ONE_APP";
+    static const char *TOP_TOW_APP = "TOP_TOW_APP";
+    static const char *TOP_THREE_APP = "TOP_THREE_APP";
+    static const char *TOP_FOUR_APP = "TOP_FOUR_APP";
+    static const char *TOP_FIVE_APP = "TOP_FIVE_APP";
+    static const char *TOP_SIX_APP = "TOP_SIX_APP";
+    static const char *TOP_SEVEN_APP = "TOP_SEVEN_APP";
+    static const char *TOP_EIGHT_APP = "TOP_EIGHT_APP";
+    static const char *TOP_NINE_APP = "TOP_NINE_APP";
+    static const char *TOP_TEN_APP = "TOP_TEN_APP";
+
+    static const char *WRONG_LEVEL = "WRONG_LEVEL";
+
+    static const char *COPY_STATE = "COPY_STATE";
+    static const char *PASTE_STATE = "PASTE_STATE";
+
+    static const int INIT_COPY_TIME_SONSUMING = 80;
+    static const int INIT_PASTE_TIME_SONSUMING = 81;
 };
 }  // namespace MiscServices
 }  // namespace OHOS
