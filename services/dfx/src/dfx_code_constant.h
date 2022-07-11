@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Huawei Device Co., Ltd.
+ * Copyright (C) 2022-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,8 +18,8 @@
 
 class DfxCodeConstant {
 public:
-    static inline const int INITIALIZATION_FAULT = 950001100;
-    static inline const int TIME_CONSUMING_STATISTIC = 950001105;
-    static inline const int PASTEBOARD_BEHAVIOUR = 950001106;
+    static inline constexpr int INITIALIZATION_FAULT = 950001100;
+    static inline constexpr int TIME_CONSUMING_STATISTIC = 950001105;
+    static inline constexpr int PASTEBOARD_BEHAVIOUR = 950001106;
 };
 #endif // MISCSERVICES_PASTEBOARD_DFX_CODE_CONSTANT_H

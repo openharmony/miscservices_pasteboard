@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Huawei Device Co., Ltd.
+ * Copyright (c) 2022-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -40,6 +40,15 @@ CalculateTimeConsuming::~CalculateTimeConsuming()
 
 int CalculateTimeConsuming::CalculateData(size_t calPasteboardData) const
 {
+    constexpr int M_BTYE = 1024;
+    constexpr int TC_ZERO_KB = 0;
+    constexpr int TC_HUNDRED_KB = 100;
+    constexpr int TC_FIVE_HUNDRED = 500;
+    constexpr int TC_ONE_MB = 1;
+    constexpr int TC_FIVE_MB = 5;
+    constexpr int TC_TEN_MB = 10;
+    constexpr int TC_FIFTY_MB = 50;
+
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "CalculateData() enter");
     if (calPasteboardData % M_BTYE == 0) {
         if (calPasteboardData >= TC_ZERO_KB && calPasteboardData < TC_HUNDRED_KB) {
@@ -66,6 +75,18 @@ int CalculateTimeConsuming::CalculateData(size_t calPasteboardData) const
 
 int CalculateTimeConsuming::CalculateTime(uint64_t time)
 {
+    constexpr int FIVE_HUNDRED_MS = 500;
+    constexpr int PER_FIVE_HUNDRED_MS_ZERO = 0;
+    constexpr int PER_FIVE_HUNDRED_MS_ONE = 1;
+    constexpr int PER_FIVE_HUNDRED_MS_TWO = 2;
+    constexpr int PER_FIVE_HUNDRED_MS_THREE = 3;
+    constexpr int PER_FIVE_HUNDRED_MS_FOUR = 4;
+    constexpr int PER_FIVE_HUNDRED_MS_FIVE = 5;
+    constexpr int PER_FIVE_HUNDRED_MS_SIX = 6;
+    constexpr int PER_FIVE_HUNDRED_MS_SEVEN = 7;
+    constexpr int PER_FIVE_HUNDRED_MS_EIGHT = 8;
+    constexpr int PER_FIVE_HUNDRED_MS_NINE = 9;
+
     uint64_t timeCosuming = time % FIVE_HUNDRED_MS;
     switch (timeCosuming) {
         case PER_FIVE_HUNDRED_MS_ZERO:
@@ -95,6 +116,9 @@ int CalculateTimeConsuming::CalculateTime(uint64_t time)
 
 uint64_t CalculateTimeConsuming::GetCurrentTimeMicros()
 {
+    constexpr int64_t SEC_TO_MILLISEC = 1000;
+    constexpr int64_t MICROSEC_TO_MILLISEC = 1000;
+
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "GetCurrentTimeMicros()  start");
     struct timeval tv = { 0, 0 };
     gettimeofday(&tv, nullptr);

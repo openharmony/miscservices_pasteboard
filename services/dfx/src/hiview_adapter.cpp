@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Huawei Device Co., Ltd.
+ * Copyright (C) 2022-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +24,41 @@ namespace OHOS {
 using namespace HiviewDFX;
 namespace MiscServices {
 namespace {
+// fault key
+constexpr const char *USER_ID = "USER_ID";
+constexpr const char *ERROR_TYPE = "ERROR_TYPE";
+// statistic key
+constexpr const char *PASTEBOARD_STATE = "PASTEBOARD_STATE";
+
+constexpr const char *ZERO_TO_HUNDRED_KB = "ZERO_TO_HUNDRED_KB";
+constexpr const char *HUNDRED_TO_FIVE_HUNDREDS_KB = "HUNDRED_TO_FIVE_HUNDREDS_KB";
+constexpr const char *FIVE_HUNDREDS_TO_THOUSAND_KB = "FIVE_HUNDREDS_TO_THOUSAND_KB";
+constexpr const char *ONE_TO_FIVE_MB = "ONE_TO_FIVE_MB";
+constexpr const char *FIVE_TO_TEN_MB = "FIVE_TO_TEN_MB";
+constexpr const char *TEN_TO_FIFTY_MB = "TEN_TO_FIFTY_MB";
+constexpr const char *OVER_FIFTY_MB = "OVER_FIFTY_MB";
+constexpr const char *CONSUMING_DATA = "CONSUMING_DATA";
+constexpr const char *DATA_LEVEL = "DATA_LEVEL";
+// behaviour key
+constexpr const char *TOP_ONE_APP = "TOP_ONE_APP";
+constexpr const char *TOP_TOW_APP = "TOP_TOW_APP";
+constexpr const char *TOP_THREE_APP = "TOP_THREE_APP";
+constexpr const char *TOP_FOUR_APP = "TOP_FOUR_APP";
+constexpr const char *TOP_FIVE_APP = "TOP_FIVE_APP";
+constexpr const char *TOP_SIX_APP = "TOP_SIX_APP";
+constexpr const char *TOP_SEVEN_APP = "TOP_SEVEN_APP";
+constexpr const char *TOP_EIGHT_APP = "TOP_EIGHT_APP";
+constexpr const char *TOP_NINE_APP = "TOP_NINE_APP";
+constexpr const char *TOP_TEN_APP = "TOP_TEN_APP";
+
+constexpr const char *WRONG_LEVEL = "WRONG_LEVEL";
+
+constexpr const char *COPY_STATE = "COPY_STATE";
+constexpr const char *PASTE_STATE = "PASTE_STATE";
+
+constexpr const int INIT_COPY_TIME_SONSUMING = 7;
+constexpr const int INIT_PASTE_TIME_SONSUMING = 8;
+
 const std::map<int, std::string> EVENT_COVERT_TABLE = {
     { DfxCodeConstant::INITIALIZATION_FAULT, "INITIALIZATION_FAULT" },
     { DfxCodeConstant::TIME_CONSUMING_STATISTIC, "TIME_CONSUMING_STATISTIC" },
@@ -269,52 +304,32 @@ const char *HiViewAdapter::GetDataLevel(int dataLevel)
 void HiViewAdapter::InvokeTimeConsuming()
 {
     std::lock_guard<std::mutex> lock(timeConsumingMutex_);
-    if (!copyTimeConsumingStat_.empty()) {
-        int i = 0;
-        for (auto iter = copyTimeConsumingStat_.begin(); iter != copyTimeConsumingStat_.end(); ++iter) {
-            int ret = HiSysEvent::Write(DOMAIN_STR, CoverEventID(DfxCodeConstant::TIME_CONSUMING_STATISTIC),
-                HiSysEvent::EventType::STATISTIC, PASTEBOARD_STATE, COPY_STATE, DATA_LEVEL, GetDataLevel(i),
-                TIME_CONSUMING_LEVEL_ONE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ONE)],
-                TIME_CONSUMING_LEVEL_TWO, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TWO)],
-                TIME_CONSUMING_LEVEL_THREE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_THREE)],
-                TIME_CONSUMING_LEVEL_FOUR, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_FOUR)],
-                TIME_CONSUMING_LEVEL_FIVE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_FIVE)],
-                TIME_CONSUMING_LEVEL_SIX, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_SIX)],
-                TIME_CONSUMING_LEVEL_SEVEN, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_SEVEN)],
-                TIME_CONSUMING_LEVEL_EIGHT, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_EIGHT)],
-                TIME_CONSUMING_LEVEL_NINE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_NINE)],
-                TIME_CONSUMING_LEVEL_TEN, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TEN)],
-                TIME_CONSUMING_LEVEL_ELEVEN, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ELEVEN)]);
-            if (ret != 0) {
-                PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent write failed! ret %{public}d.", ret);
-            }
-            ++i;
-        }
-    } else { PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent copyTimeConsumingStat_ is empty."); }
-    if (!pasteTimeConsumingStat_.empty()) {
-        int i = 0;
-        for (auto iter = pasteTimeConsumingStat_.begin(); iter != pasteTimeConsumingStat_.end(); ++iter) {
-            int ret = HiSysEvent::Write(DOMAIN_STR, CoverEventID(DfxCodeConstant::TIME_CONSUMING_STATISTIC),
-                HiSysEvent::EventType::STATISTIC, PASTEBOARD_STATE, PASTE_STATE, DATA_LEVEL, GetDataLevel(i),
-                TIME_CONSUMING_LEVEL_ONE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ONE)],
-                TIME_CONSUMING_LEVEL_TWO, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TWO)],
-                TIME_CONSUMING_LEVEL_THREE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_THREE)],
-                TIME_CONSUMING_LEVEL_FOUR, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_FOUR)],
-                TIME_CONSUMING_LEVEL_FIVE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_FIVE)],
-                TIME_CONSUMING_LEVEL_SIX, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_SIX)],
-                TIME_CONSUMING_LEVEL_SEVEN, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_SEVEN)],
-                TIME_CONSUMING_LEVEL_EIGHT, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_EIGHT)],
-                TIME_CONSUMING_LEVEL_NINE, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_NINE)],
-                TIME_CONSUMING_LEVEL_TEN, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TEN)],
-                TIME_CONSUMING_LEVEL_ELEVEN, (*iter)[static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ELEVEN)]);
-            if (ret != 0) {
-                PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent write failed! ret %{public}d.", ret);
-            }
-            ++i;
-        }
-    } else { PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent pasteTimeConsumingStat_ is empty."); }
+    ReportStatisticEvent(copyTimeConsumingStat_, COPY_STATE);
     copyTimeConsumingStat_.clear();
+    ReportStatisticEvent(pasteTimeConsumingStat_, PASTE_STATE);
     pasteTimeConsumingStat_.clear();
+}
+
+void HiViewAdapter::ReportStatisticEvent(std::vector<std::map<int, int>> &timeConsumingStat, std::string pasteboardState)
+{
+    if(timeConsumingStat.empty()) {
+        PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent timeConsumingStat is empty.");
+        return;
+    }
+    int i = 0;
+    for (auto iter = timeConsumingStat.begin(); iter != timeConsumingStat.end(); ++iter) {
+        std::string buffMsg = ": [";
+        for (int j = static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ONE); j <= static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ELEVEN); ++j) {
+            buffMsg = buffMsg + std::to_string((*iter)[j]) + ",";
+        }
+        buffMsg += "]";
+        int ret = HiSysEvent::Write(DOMAIN_STR, CoverEventID(DfxCodeConstant::TIME_CONSUMING_STATISTIC),
+            HiSysEvent::EventType::STATISTIC, PASTEBOARD_STATE, pasteboardState, DATA_LEVEL, GetDataLevel(i), CONSUMING_DATA, buffMsg);
+        if (ret != 0) {
+            PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent write failed! ret %{public}d.", ret);
+        }
+        ++i;
+    }
 }
 
 void HiViewAdapter::ReportBehaviour(std::map<std::string, int> &behaviour, const char *pasteboardState)
