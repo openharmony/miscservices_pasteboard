@@ -22,7 +22,7 @@
 
 namespace OHOS {
 namespace MiscServices {
-enum Fault : std::int32_t{
+enum Fault : std::int32_t {
     // Time Consuming Stat
     TCS_COPY_STATE = 0,
     TCS_PASTE_STATE,

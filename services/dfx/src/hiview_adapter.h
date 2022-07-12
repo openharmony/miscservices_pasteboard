@@ -71,7 +71,8 @@ private:
     static const char *GetDataLevel(int dataLevel);
     static void InvokeTimeConsuming();
     static void ReportBehaviour(std::map<std::string, int> &behaviour, const char *statePasteboard);
-    static void ReportStatisticEvent(const std::vector<std::map<int, int>> &timeConsumingStat, const std::string &pasteboardState);
+    static void ReportStatisticEvent(
+        const std::vector<std::map<int, int>> &timeConsumingStat, const std::string &pasteboardState);
 
     static std::mutex timeConsumingMutex_;
     static std::vector<std::map<int, int>> copyTimeConsumingStat_;
