@@ -76,7 +76,7 @@ int CalculateTimeConsuming::CalculateData(size_t calPasteboardData) const
 int CalculateTimeConsuming::CalculateTime(uint64_t time)
 {
     constexpr int FIVE_HUNDRED_MS = 500;
-    uint64_t timeCosuming = time % FIVE_HUNDRED_MS;
+    int32_t timeCosuming = static_cast<int>(time % FIVE_HUNDRED_MS);
     switch (timeCosuming) {
         case TimeLevelTen::PER_FIVE_HUNDRED_MS_ZERO:
             return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_ONE);
