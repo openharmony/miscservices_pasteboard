@@ -52,22 +52,22 @@ int CalculateTimeConsuming::CalculateData(size_t calPasteboardData) const
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "CalculateData() enter");
     if (calPasteboardData % M_BTYE == 0) {
         if (calPasteboardData >= TC_ZERO_KB && calPasteboardData < TC_HUNDRED_KB) {
-            return static_cast<int>(Fault::TCS_ZERO_TO_HUNDRED_KB);
+            return static_cast<int>(DataRange::DR_ZERO_TO_HUNDRED_KB);
         } else if (calPasteboardData >= TC_HUNDRED_KB && calPasteboardData < TC_FIVE_HUNDRED) {
-            return static_cast<int>(Fault::TCS_HUNDRED_TO_FIVE_HUNDREDS_KB);
+            return static_cast<int>(DataRange::DR_HUNDRED_TO_FIVE_HUNDREDS_KB);
         } else {
-            return static_cast<int>(Fault::TCS_FIVE_HUNDREDS_TO_THOUSAND_KB);
+            return static_cast<int>(DataRange::DR_FIVE_HUNDREDS_TO_THOUSAND_KB);
         }
     } else {
         size_t dataSize = calPasteboardData % M_BTYE;
         if (dataSize >= TC_ONE_MB && dataSize < TC_FIVE_MB) {
-            return static_cast<int>(Fault::TCS_ONE_TO_FIVE_MB);
+            return static_cast<int>(DataRange::DR_ONE_TO_FIVE_MB);
         } else if (dataSize >= TC_FIVE_MB && dataSize < TC_TEN_MB) {
-            return static_cast<int>(Fault::TCS_FIVE_TO_TEN_MB);
+            return static_cast<int>(DataRange::DR_FIVE_TO_TEN_MB);
         } else if (dataSize >= TC_TEN_MB && dataSize < TC_FIFTY_MB) {
-            return static_cast<int>(Fault::TCS_TEN_TO_FIFTY_MB);
+            return static_cast<int>(DataRange::DR_TEN_TO_FIFTY_MB);
         } else {
-            return static_cast<int>(Fault::TCS_OVER_FIFTY_MB);
+            return static_cast<int>(DataRange::DR_OVER_FIFTY_MB);
         }
     }
     PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "CalculateData()  end");
@@ -79,27 +79,27 @@ int CalculateTimeConsuming::CalculateTime(uint64_t time)
     uint64_t timeCosuming = time % FIVE_HUNDRED_MS;
     switch (timeCosuming) {
         case TimeLevel::PER_FIVE_HUNDRED_MS_ZERO:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_ONE);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_ONE);
         case TimeLevel::PER_FIVE_HUNDRED_MS_ONE:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_TWO);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_TWO);
         case TimeLevel::PER_FIVE_HUNDRED_MS_TWO:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_THREE);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_THREE);
         case TimeLevel::PER_FIVE_HUNDRED_MS_THREE:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_FOUR);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_FOUR);
         case TimeLevel::PER_FIVE_HUNDRED_MS_FOUR:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_FIVE);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_FIVE);
         case TimeLevel::PER_FIVE_HUNDRED_MS_FIVE:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_SIX);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_SIX);
         case TimeLevel::PER_FIVE_HUNDRED_MS_SIX:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_SEVEN);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_SEVEN);
         case TimeLevel::PER_FIVE_HUNDRED_MS_SEVEN:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_EIGHT);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_EIGHT);
         case TimeLevel::PER_FIVE_HUNDRED_MS_EIGHT:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_NINE);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_NINE);
         case TimeLevel::PER_FIVE_HUNDRED_MS_NINE:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_TEN);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_TEN);
         default:
-            return static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_ELEVEN);
+            return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_ELEVEN);
     }
 }
 

@@ -22,21 +22,8 @@
 
 namespace OHOS {
 namespace MiscServices {
-enum Fault : std::int32_t {
-    // Time Consuming Stat
-    TCS_COPY_STATE = 0,
-    TCS_PASTE_STATE,
-    TCS_DEVICES_PASTE_WIFI_STATE,
-    TCS_DEVICES_PASTE_BTONLY_STATE,
-    TCS_PASTEBOARD_STATE,
-    TCS_ZERO_TO_HUNDRED_KB,
-    TCS_HUNDRED_TO_FIVE_HUNDREDS_KB,
-    TCS_FIVE_HUNDREDS_TO_THOUSAND_KB,
-    TCS_ONE_TO_FIVE_MB,
-    TCS_FIVE_TO_TEN_MB,
-    TCS_TEN_TO_FIFTY_MB,
-    TCS_OVER_FIFTY_MB,
-    TCS_TIME_CONSUMING_LEVEL_ONE,
+enum TimeConsumingStatistic : std::int32_t {
+    TCS_TIME_CONSUMING_LEVEL_ONE = 0,
     TCS_TIME_CONSUMING_LEVEL_TWO,
     TCS_TIME_CONSUMING_LEVEL_THREE,
     TCS_TIME_CONSUMING_LEVEL_FOUR,
@@ -47,8 +34,26 @@ enum Fault : std::int32_t {
     TCS_TIME_CONSUMING_LEVEL_NINE,
     TCS_TIME_CONSUMING_LEVEL_TEN,
     TCS_TIME_CONSUMING_LEVEL_ELEVEN,
-    PB_COPY_STATE,
-    PB_PASTE_STATE,
+};
+
+enum BehaviourPasteboardState : std::int32_t {
+    BPS_COPY_STATE = 0,
+    BPS_PASTE_STATE,
+};
+
+enum StatisticPasteboardState : std::int32_t {
+    SPS_COPY_STATE = 2,
+    SPS_PASTE_STATE,
+};
+
+enum DataRange : std::int32_t {
+    DR_ZERO_TO_HUNDRED_KB = 0,
+    DR_HUNDRED_TO_FIVE_HUNDREDS_KB,
+    DR_FIVE_HUNDREDS_TO_THOUSAND_KB,
+    DR_ONE_TO_FIVE_MB,
+    DR_FIVE_TO_TEN_MB,
+    DR_TEN_TO_FIFTY_MB,
+    DR_OVER_FIFTY_MB,
 };
 
 struct InitializationFaultMsg {

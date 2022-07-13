@@ -53,19 +53,19 @@ std::map<int, int> HiViewAdapter::InitDataMap()
 {
     std::map<int, int> dataMap;
     dataMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_ZERO_TO_HUNDRED_KB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_ONE)));
-    dataMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_HUNDRED_TO_FIVE_HUNDREDS_KB),
+        static_cast<int>(DataRange::DR_ZERO_TO_HUNDRED_KB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_ONE)));
+    dataMap.insert(std::pair<int, int>(static_cast<int>(DataRange::DR_HUNDRED_TO_FIVE_HUNDREDS_KB),
         static_cast<int>(DataConsumingLevel::DATA_LEVEL_TWO)));
-    dataMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_FIVE_HUNDREDS_TO_THOUSAND_KB),
+    dataMap.insert(std::pair<int, int>(static_cast<int>(DataRange::DR_FIVE_HUNDREDS_TO_THOUSAND_KB),
         static_cast<int>(DataConsumingLevel::DATA_LEVEL_THREE)));
     dataMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_ONE_TO_FIVE_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_FOUR)));
+        static_cast<int>(DataRange::DR_ONE_TO_FIVE_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_FOUR)));
     dataMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_FIVE_TO_TEN_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_FIVE)));
+        static_cast<int>(DataRange::DR_FIVE_TO_TEN_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_FIVE)));
     dataMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_TEN_TO_FIFTY_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_SIX)));
+        static_cast<int>(DataRange::DR_TEN_TO_FIFTY_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_SIX)));
     dataMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_OVER_FIFTY_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_SEVEN)));
+        static_cast<int>(DataRange::DR_OVER_FIFTY_MB), static_cast<int>(DataConsumingLevel::DATA_LEVEL_SEVEN)));
     return dataMap;
 }
 
@@ -73,26 +73,26 @@ std::map<int, int> HiViewAdapter::InitTimeMap()
 {
     std::map<int, int> timeMap;
     timeMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_ONE), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ONE)));
+        static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_ONE), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ONE)));
     timeMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_TWO), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TWO)));
-    timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_THREE),
+        static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_TWO), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TWO)));
+    timeMap.insert(std::pair<int, int>(static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_THREE),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_THREE)));
-    timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_FOUR),
+    timeMap.insert(std::pair<int, int>(static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_FOUR),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_FOUR)));
-    timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_FIVE),
+    timeMap.insert(std::pair<int, int>(static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_FIVE),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_FIVE)));
     timeMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_SIX), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_SIX)));
-    timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_SEVEN),
+        static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_SIX), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_SIX)));
+    timeMap.insert(std::pair<int, int>(static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_SEVEN),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_SEVEN)));
-    timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_EIGHT),
+    timeMap.insert(std::pair<int, int>(static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_EIGHT),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_EIGHT)));
-    timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_NINE),
+    timeMap.insert(std::pair<int, int>(static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_NINE),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_NINE)));
     timeMap.insert(std::pair<int, int>(
-        static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_TEN), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TEN)));
-    timeMap.insert(std::pair<int, int>(static_cast<int>(Fault::TCS_TIME_CONSUMING_LEVEL_ELEVEN),
+        static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_TEN), static_cast<int>(TimeConsumingLevel::TIME_LEVEL_TEN)));
+    timeMap.insert(std::pair<int, int>(static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_ELEVEN),
         static_cast<int>(TimeConsumingLevel::TIME_LEVEL_ELEVEN)));
     return timeMap;
 }
@@ -148,7 +148,7 @@ void HiViewAdapter::ReportTimeConsumingStatistic(const TimeConsumingStat &stat)
         InitializeTimeConsuming(INIT_PASTE_TIME_SONSUMING);
     }
 
-    if (stat.pasteboardState == static_cast<int>(Fault::TCS_PASTE_STATE)) {
+    if (stat.pasteboardState == static_cast<int>(StatisticPasteboardState::SPS_PASTE_STATE)) {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent pasteboard state is %{public}d", stat.pasteboardState);
         auto iter = dataMap_.find(stat.dataSize);
         if (iter != dataMap_.end()) {
@@ -156,7 +156,7 @@ void HiViewAdapter::ReportTimeConsumingStatistic(const TimeConsumingStat &stat)
         } else {
             PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "wrong data level");
         }
-    } else if (stat.pasteboardState == static_cast<int>(Fault::TCS_COPY_STATE)) {
+    } else if (stat.pasteboardState == static_cast<int>(StatisticPasteboardState::SPS_COPY_STATE)) {
         PASTEBOARD_HILOGD(PASTEBOARD_MODULE_SERVICE, "hisysevent pasteboard state is %{public}d", stat.pasteboardState);
         auto iter = dataMap_.find(stat.dataSize);
         if (iter != dataMap_.end()) {
@@ -222,14 +222,14 @@ void HiViewAdapter::ReportPasteboardBehaviour(const PasteboardBehaviourMsg &msg)
 {
     std::lock_guard<std::mutex> lock(behaviourMutex_);
 
-    if (msg.pasteboardState == static_cast<int>(Fault::PB_COPY_STATE)) {
+    if (msg.pasteboardState == static_cast<int>(BehaviourPasteboardState::BPS_COPY_STATE)) {
         auto it = copyPasteboardBehaviour_.find(msg.appId);
         if (it != copyPasteboardBehaviour_.end()) {
             (it->second)++;
         } else {
             copyPasteboardBehaviour_.insert(std::pair<std::string, int>(msg.appId, 1));
         }
-    } else if (msg.pasteboardState == static_cast<int>(Fault::PB_PASTE_STATE)) {
+    } else if (msg.pasteboardState == static_cast<int>(BehaviourPasteboardState::BPS_PASTE_STATE)) {
         auto it = pastePasteboardBehaviour_.find(msg.appId);
         if (it != pastePasteboardBehaviour_.end()) {
             (it->second)++;
