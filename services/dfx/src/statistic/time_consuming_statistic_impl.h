@@ -16,8 +16,8 @@
 #ifndef MISCSERVICES_PASTEBOARD_TIMECONSUMING_STATISTIC_IMPL_H
 #define MISCSERVICES_PASTEBOARD_TIMECONSUMING_STATISTIC_IMPL_H
 
+#include "dfx_types.h"
 #include "statistic_reporter.h"
-#include "hiview_adapter.h"
 
 namespace OHOS {
 namespace MiscServices {

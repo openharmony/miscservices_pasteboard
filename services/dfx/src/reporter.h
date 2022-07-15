@@ -16,13 +16,10 @@
 #ifndef MISCSERVICES_PASTEBOARD_REPORTER_H
 #define MISCSERVICES_PASTEBOARD_REPORTER_H
 
-#include <memory>
-#include <mutex>
-#include "dfx_types.h"
 #include "behaviour_reporter.h"
+#include "dfx_types.h"
 #include "fault_reporter.h"
 #include "statistic_reporter.h"
-#include "dfx_code_constant.h"
 
 namespace OHOS {
 namespace MiscServices {

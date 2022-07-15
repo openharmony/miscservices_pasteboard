@@ -15,11 +15,15 @@
 
 #ifndef PASTE_BOARD_SERVICE_STUB_H
 #define PASTE_BOARD_SERVICE_STUB_H
-#include <map>
-#include "iremote_stub.h"
-#include "i_pasteboard_service.h"
-#include "ipc_skeleton.h"
 
+#include <cstdint>
+#include <map>
+#include "i_pasteboard_service.h"
+#include "iremote_stub.h"
+#include "message_option.h"
+#include "message_parcel.h"
+#include "refbase.h"
+#include "ipc_skeleton.h"
 
 namespace OHOS {
 namespace MiscServices {

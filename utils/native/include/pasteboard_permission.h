@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 #ifndef PASTEBOARD_PERMISSION_H
 #define PASTEBOARD_PERMISSION_H
 
@@ -23,9 +22,9 @@
 #include "system_ability_definition.h"
 #include "iservice_registry.h"
 #include "refbase.h"
-
 #include <mutex>
 #include <string>
+
 namespace OHOS {
 namespace MiscServices {
 class PasteboardPermission : public RefBase {

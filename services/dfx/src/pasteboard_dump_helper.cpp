@@ -12,8 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include "pasteboard_dump_helper.h"
-#include "pasteboard_hilog_wreapper.h"
+#include "map"
+#include "stdio.h"
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace OHOS {
 namespace MiscServices {

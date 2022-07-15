@@ -15,7 +15,8 @@
 
 #ifndef MISCSERVICES_PASTEBOARD_INITIALIZATION_FAULT_IMPL_H
 #define MISCSERVICES_PASTEBOARD_INITIALIZATION_FAULT_IMPL_H
-#include "hiview_adapter.h"
+
+#include "dfx_types.h"
 #include "fault_reporter.h"
 
 namespace OHOS {

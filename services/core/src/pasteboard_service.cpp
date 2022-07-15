@@ -13,9 +13,7 @@
  * limitations under the License.
  */
 #include "pasteboard_service.h"
-
 #include <unistd.h>
-
 #include "dfx_code_constant.h"
 #include "dfx_types.h"
 #include "hiview_adapter.h"

@@ -12,9 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include "pasteboard_observer_proxy.h"
-#include "pasteboard_common.h"
-#include "iremote_broker.h"
+#include "errors.h"
+#include "iremote_proxy.h"
+#include "message_option.h"
+#include "message_parcel.h"
+#include "pasteboard_hilog_wreapper.h"
 
 namespace OHOS {
 namespace MiscServices {
