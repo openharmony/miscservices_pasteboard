@@ -16,8 +16,8 @@
 #define PASTE_BOARD_OBERVER_PROXY_H
 
 #include <iremote_proxy.h>
-#include "nocopyable.h"
 #include <functional>
+#include "nocopyable.h"
 #include "i_pasteboard_observer.h"
 #include "iremote_broker.h"
 #include "iremote_object.h"

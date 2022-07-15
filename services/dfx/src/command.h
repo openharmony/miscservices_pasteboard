@@ -18,7 +18,6 @@
 
 #include <string>
 #include <vector>
-#include <functional>
 #include <string>
 
 namespace OHOS {

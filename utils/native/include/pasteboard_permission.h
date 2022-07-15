@@ -16,14 +16,14 @@
 #ifndef PASTEBOARD_PERMISSION_H
 #define PASTEBOARD_PERMISSION_H
 
+#include <mutex>
+#include <string>
 #include "bundle_mgr_interface.h"
 #include "pasteboard_common.h"
 #include "mock_permission.h"
 #include "system_ability_definition.h"
 #include "iservice_registry.h"
 #include "refbase.h"
-#include <mutex>
-#include <string>
 
 namespace OHOS {
 namespace MiscServices {
