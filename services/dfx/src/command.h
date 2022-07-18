@@ -18,7 +18,6 @@
 
 #include <string>
 #include <vector>
-#include <string>
 
 namespace OHOS {
 namespace MiscServices {

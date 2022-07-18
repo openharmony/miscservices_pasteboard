@@ -16,14 +16,15 @@
 #ifndef MISCSERVICES_PASTEBOARD_HI_VIEW_ADAPTER_H
 #define MISCSERVICES_PASTEBOARD_HI_VIEW_ADAPTER_H
 
+#include <sys/time.h>
+
 #include <map>
 #include <mutex>
-#include <vector>
 #include <string>
-#include <sys/time.h>
-#include "dfx_types.h"
-#include "hisysevent.h"
+#include <vector>
+
 #include "dfx_code_constant.h"
+#include "dfx_types.h"
 #include "hisysevent.h"
 
 namespace OHOS {

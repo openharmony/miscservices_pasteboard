@@ -13,17 +13,19 @@
  * limitations under the License.
  */
 #include "pasteboard_service.h"
+
 #include <unistd.h>
+
+#include "calculate_time_consuming.h"
 #include "dfx_code_constant.h"
 #include "dfx_types.h"
 #include "hiview_adapter.h"
 #include "iservice_registry.h"
 #include "os_account_manager.h"
 #include "pasteboard_common.h"
-#include "reporter.h"
 #include "pasteboard_trace.h"
+#include "reporter.h"
 #include "system_ability_definition.h"
-#include "calculate_time_consuming.h"
 
 namespace OHOS {
 namespace MiscServices {

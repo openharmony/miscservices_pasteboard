@@ -14,11 +14,8 @@
  */
 
 #include "pasteboard_dump_helper.h"
+
 #include <cstdio>
-#include <string>
-#include <utility>
-#include <vector>
-#include <map>
 
 namespace OHOS {
 namespace MiscServices {

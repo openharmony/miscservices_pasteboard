@@ -16,7 +16,7 @@
 #define PASTE_BOARD_DATA_H
 
 #include <chrono>
-#include <stddef.h>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <string>

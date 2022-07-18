@@ -16,9 +16,10 @@
 #ifndef PASTE_BOARD_SERVICE_INTERFACE_H
 #define PASTE_BOARD_SERVICE_INTERFACE_H
 
+#include "i_pasteboard_observer.h"
 #include "iremote_broker.h"
 #include "paste_data.h"
-#include "i_pasteboard_observer.h"
+
 namespace OHOS {
 namespace MiscServices {
 class IPasteboardService : public IRemoteBroker {

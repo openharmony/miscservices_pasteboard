@@ -16,8 +16,11 @@
 #define LOG_TAG "HiViewAdapter"
 
 #include "hiview_adapter.h"
-#include <thread>
+
 #include <unistd.h>
+
+#include <thread>
+
 #include "pasteboard_hilog_wreapper.h"
 
 namespace OHOS {

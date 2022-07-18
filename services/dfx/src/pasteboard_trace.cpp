@@ -16,8 +16,10 @@
 #define LOG_TAG "MiscPasteboardDfx"
 
 #include "pasteboard_trace.h"
-#include <cstdint>
+
 #include <atomic>
+#include <cstdint>
+
 #include "hitrace/hitrace.h"
 #include "hitrace_meter.h"
 #include "pasteboard_hilog_wreapper.h"

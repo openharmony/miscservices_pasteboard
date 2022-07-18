@@ -14,8 +14,6 @@
  */
 
 #include "command.h"
-#include <string>
-#include <vector>
 
 namespace OHOS {
 namespace MiscServices {

@@ -18,6 +18,7 @@
 
 #include <cstdint>
 #include <ctime>
+
 #include "singleton.h"
 
 namespace OHOS {

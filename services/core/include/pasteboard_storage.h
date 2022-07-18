@@ -17,8 +17,9 @@
 #define PASTE_BOARD_STORAGE_H
 
 #include <map>
-#include "paste_data.h"
+
 #include "i_pasteboard_storage.h"
+#include "paste_data.h"
 
 namespace OHOS {
 namespace MiscServices {

@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 #include "pasteboard_storage.h"
+
 #include <nlohmann/json.hpp>
+
 #include "paste_data.h"
 
 namespace OHOS {

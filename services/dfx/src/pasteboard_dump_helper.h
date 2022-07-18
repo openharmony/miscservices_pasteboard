@@ -17,9 +17,10 @@
 #define MISCSERVICES_PASTEBOARD_DUMPE_HELPER_H
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
+
 #include "command.h"
 
 namespace OHOS {

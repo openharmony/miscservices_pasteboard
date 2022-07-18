@@ -18,12 +18,10 @@
 
 #include <cstdint>
 #include <map>
+
 #include "i_pasteboard_service.h"
-#include "iremote_stub.h"
-#include "message_option.h"
-#include "message_parcel.h"
-#include "refbase.h"
 #include "ipc_skeleton.h"
+#include "iremote_stub.h"
 
 namespace OHOS {
 namespace MiscServices {
