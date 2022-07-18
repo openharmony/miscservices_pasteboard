@@ -78,25 +78,25 @@ int CalculateTimeConsuming::CalculateTime(uint64_t time)
     constexpr int FIVE_HUNDRED_MS = 500;
     uint64_t timeCosuming = time % FIVE_HUNDRED_MS;
     switch (timeCosuming) {
-        case TimeLevel::PER_FIVE_HUNDRED_MS_ZERO:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_ZERO):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_ONE);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_ONE:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_ONE):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_TWO);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_TWO:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_TWO):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_THREE);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_THREE:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_THREE):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_FOUR);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_FOUR:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_FOUR):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_FIVE);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_FIVE:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_FIVE):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_SIX);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_SIX:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_SIX):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_SEVEN);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_SEVEN:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_SEVEN):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_EIGHT);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_EIGHT:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_EIGHT):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_NINE);
-        case TimeLevel::PER_FIVE_HUNDRED_MS_NINE:
+        case static_cast<uint64_t>(TimeLevel::PER_FIVE_HUNDRED_MS_NINE):
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_TEN);
         default:
             return static_cast<int>(TimeConsumingStatistic::TCS_TIME_CONSUMING_LEVEL_ELEVEN);
