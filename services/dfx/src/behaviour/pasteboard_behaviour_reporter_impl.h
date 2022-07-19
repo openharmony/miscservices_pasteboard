@@ -17,7 +17,7 @@
 #define MISCSERVICES_PASTEBOARD_BEHAVIOUR_REPORTER_IMPL_H
 
 #include "behaviour_reporter.h"
-#include "hiview_adapter.h"
+#include "dfx_types.h"
 
 namespace OHOS {
 namespace MiscServices {

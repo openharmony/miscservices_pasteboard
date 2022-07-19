@@ -12,10 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include "pasteboard_service_stub.h"
-#include "pasteboard_common.h"
-#include "i_pasteboard_service.h"
+
+#include "errors.h"
 #include "paste_data.h"
+#include "pasteboard_common.h"
+#include "pasteboard_hilog_wreapper.h"
 
 namespace OHOS {
 namespace MiscServices {

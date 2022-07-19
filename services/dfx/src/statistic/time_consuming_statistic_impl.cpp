@@ -15,6 +15,9 @@
 
 #include "time_consuming_statistic_impl.h"
 
+#include "dfx_code_constant.h"
+#include "hiview_adapter.h"
+
 namespace OHOS {
 namespace MiscServices {
 ReportStatus TimeConsumingStatisticImpl::Report(const TimeConsumingStat &stat)

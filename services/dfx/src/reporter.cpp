@@ -14,11 +14,10 @@
  */
 
 #include "reporter.h"
-#include "fault/initialization_fault_impl.h"
-
-#include "statistic/time_consuming_statistic_impl.h"
 
 #include "behaviour/pasteboard_behaviour_reporter_impl.h"
+#include "fault/initialization_fault_impl.h"
+#include "statistic/time_consuming_statistic_impl.h"
 
 namespace OHOS {
 namespace MiscServices {

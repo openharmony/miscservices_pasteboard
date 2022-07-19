@@ -15,6 +15,9 @@
 
 #include "pasteboard_behaviour_reporter_impl.h"
 
+#include "dfx_code_constant.h"
+#include "hiview_adapter.h"
+
 namespace OHOS {
 namespace MiscServices {
 ReportStatus PasteboardBehaviourReporterImpl::Report(const PasteboardBehaviourMsg &msg)

@@ -14,7 +14,8 @@
  */
 
 #include "pasteboard_dump_helper.h"
-#include "pasteboard_hilog_wreapper.h"
+
+#include <cstdio>
 
 namespace OHOS {
 namespace MiscServices {

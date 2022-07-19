@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <chrono>
-#include "paste_data_record.h"
-#include "pasteboard_common.h"
+
 #include "paste_data.h"
+#include <new>
+#include "paste_data_record.h"
+#include "pasteboard_hilog_wreapper.h"
+#include "type_traits"
 
 using namespace std::chrono;
 

@@ -17,8 +17,6 @@
 #define MISCSERVICES_PASTEBOARD_TRACE_H
 
 #include <string>
-#include <atomic>
-#include "hitrace/trace.h"
 
 namespace OHOS {
 namespace MiscServices {

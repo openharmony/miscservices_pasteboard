@@ -16,10 +16,13 @@
 #define LOG_TAG "MiscPasteboardDfx"
 
 #include "pasteboard_trace.h"
+
 #include <atomic>
-#include <cinttypes>
-#include "pasteboard_hilog_wreapper.h"
+#include <cstdint>
+
+#include "hitrace/hitrace.h"
 #include "hitrace_meter.h"
+#include "pasteboard_hilog_wreapper.h"
 
 namespace OHOS {
 namespace MiscServices {

@@ -16,8 +16,9 @@
 #ifndef TIME_CONSUMING_H
 #define TIME_CONSUMING_H
 
+#include <cstdint>
 #include <ctime>
-#include <sys/time.h>
+
 #include "singleton.h"
 
 namespace OHOS {

@@ -12,9 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include "pasteboard_observer_stub.h"
-#include "pasteboard_common.h"
+
 #include "i_pasteboard_observer.h"
+#include "pasteboard_common.h"
 
 namespace OHOS {
 namespace MiscServices {

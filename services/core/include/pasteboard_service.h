@@ -15,27 +15,29 @@
 
 #ifndef PASTE_BOARD_SERVICE_H
 #define PASTE_BOARD_SERVICE_H
-#include <iremote_object.h>
-#include <system_ability.h>
 
+#include <singleton.h>
+#include <sys/time.h>
+
+#include <atomic>
+#include <condition_variable>
+#include <ctime>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <set>
-#include <map>
-#include <atomic>
-#include <thread>
 #include <stack>
-#include <ctime>
-#include <sys/time.h>
-#include <condition_variable>
-#include <singleton.h>
+#include <thread>
+
+#include "bundle_mgr_proxy.h"
 #include "event_handler.h"
 #include "i_pasteboard_observer.h"
+#include "iremote_object.h"
 #include "paste_data.h"
-#include "pasteboard_storage.h"
-#include "pasteboard_service_stub.h"
 #include "pasteboard_dump_helper.h"
-#include "bundle_mgr_proxy.h"
+#include "pasteboard_service_stub.h"
+#include "pasteboard_storage.h"
+#include "system_ability.h"
 
 namespace OHOS {
 namespace MiscServices {

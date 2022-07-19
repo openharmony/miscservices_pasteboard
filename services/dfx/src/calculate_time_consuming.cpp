@@ -13,12 +13,14 @@
  * limitations under the License.
  */
 
-
 #include "calculate_time_consuming.h"
-#include <cinttypes>
+
+#include <sys/time.h>
+
+#include "dfx_types.h"
 #include "pasteboard_hilog_wreapper.h"
 #include "reporter.h"
-#include "dfx_types.h"
+#include "statistic_reporter.h"
 
 namespace OHOS {
 namespace MiscServices {
